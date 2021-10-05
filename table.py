@@ -25,7 +25,7 @@ def make_table(num_rows, num_cols):
 # ------ Make the Table Data ------
 data = make_table(num_rows=15, num_cols=6)
 headings = [str(data[0][x]) for x in range(len(data[0]))]
-
+print(data)
 # ------ Window Layout ------
 layout = [[sg.Table(values=data[1:][:], headings=headings, max_col_width=25, background_color='lightblue',
                     auto_size_columns=True,
