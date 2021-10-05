@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+import random
 
 sg.theme('LightGreen')
 # Add a touch of color
@@ -6,13 +7,21 @@ sg.theme('LightGreen')
 # layoutTable = []
 rows, cols = (5, 5)
 arr = [[0]*cols]*rows
+print(arr)
+text = "hello"
 
-layout1 = [  [sg.Text('Some text on Row 1', font='Arial')],
+layout1 = [  [sg.Text(text, font='Arial')],
             [sg.Text('Enter something on Row 2', font='Helvetica'), sg.InputText()],
             [sg.Button('Ok', font='Helvetica'), sg.Button('Cancel', font='Helvetica')],
             [sg.Button('Beep', size=(4,1))],
-            [sg.Table
-             (values=arr, num_rows = 2, visible = True, select_rows = [1, 2], alternating_row_color ='Red', row_colors ='White')]
+             [sg.Table(values=arr[1:][:], max_col_width=25, background_color='lightblue',
+                    auto_size_columns=True,
+                    display_row_numbers=True,
+                    justification='right',
+                    num_rows=20,
+                    alternating_row_color='lightyellow',
+                    key='-TABLE-',
+                    tooltip='This is a table')],
              ]
 layout2 = [[sg.Text('Testing 1 2 3', font='Helvetica')]]
 layout3 = [[sg.Text('Beep Bop Boop')]]
