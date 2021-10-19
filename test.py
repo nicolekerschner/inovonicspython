@@ -1,7 +1,7 @@
 import PySimpleGUI as sg
 import random
 
-sg.theme('LightGreen')
+sg.theme('Default')
 # Add a touch of color
 # All the stuff inside your window.
 # layoutTable = []
