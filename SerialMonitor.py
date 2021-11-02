@@ -7,29 +7,32 @@ normalFont = ('Helvetica', 11)
 
 # SCREEN 1: DEVICE DATA
 UID = [[sg.Text('UID', font=headerFont)],
-       [sg.Text('Orginator', font=normalFont), sg.InputText(size=10)],
-       [sg.Text('First Hop', font=normalFont), sg.InputText(size=10)],
-       [sg.Text('Trace Count', font=normalFont), sg.InputText(size=10)],
-       [sg.Text('Trace UID', font=normalFont), sg.InputText(size=10)],
-       [sg.Text('Trace UID', font=normalFont), sg.InputText(size=10)],
-       [sg.Text('Trace UID', font=normalFont), sg.InputText(size=10)],
-       [sg.Text('Trace UID', font=normalFont), sg.InputText(size=10)],
-       [sg.Text('Trace UID', font=normalFont), sg.InputText(size=10)]]
+       [sg.Text('Orginator', font=normalFont), sg.StatusBar('', size=10, background_color='white')],
+       [sg.Text('First Hop', font=normalFont), sg.StatusBar('', size=10, background_color='white')],
+       [sg.Text('Trace Count', font=normalFont), sg.StatusBar('', size=10, background_color='white')],
+       [sg.Text('Trace UID', font=normalFont), sg.StatusBar('', size=10, background_color='white')],
+       [sg.Text('Trace UID', font=normalFont), sg.StatusBar('', size=10, background_color='white')],
+       [sg.Text('Trace UID', font=normalFont), sg.StatusBar('', size=10, background_color='white')],
+       [sg.Text('Trace UID', font=normalFont), sg.StatusBar('', size=10, background_color='white')],
+       [sg.Text('Trace UID', font=normalFont), sg.StatusBar('', size=10, background_color='white')]]
 
 originInfo = [[sg.Text('Orignator Info', font=headerFont)],
               [sg.Text('Survery Bit Set', font=normalFont)],
               [sg.Text('Payload ID Present', font=normalFont)],
               [sg.Text('PTI Byte Present', font=normalFont)],
-              [sg.Text('Device Class', font=normalFont), sg.InputText(size=10)],
-              [sg.Text('Device Type', font=normalFont), sg.InputText(size=10)],
-              [sg.Text('Payload ID', font=normalFont), sg.InputText(size=10)],
+              [sg.Text('Device Class', font=normalFont), sg.StatusBar('', size=10, background_color='white')],
+              [sg.Text('Device Type', font=normalFont), sg.StatusBar('', size=10, background_color='white')],
+              [sg.Text('Payload ID', font=normalFont), sg.StatusBar('', size=10, background_color='white')],
               [sg.Text('Low Battery', font=normalFont)],
               [sg.Text('Supervision', font=normalFont)],
               [sg.Text('Reset', font=normalFont)],
-              [sg.Text('Case Tamper', font=normalFont)]]
+              [sg.Text('Case Tamper', font=normalFont)],
+              [sg.Text("Level  "), sg.ProgressBar(20, orientation='horizontal', size=(10,10), bar_color=('green', 'grey'))],
+              [sg.Text("Margin"), sg.ProgressBar(20, orientation='horizontal', size=(10,10), bar_color=('green', 'grey'))]]
+
 
 receiveStatus = [[sg.Text('Serial Receiver Status', font=headerFont)],
-                 [sg.InputText(size=5), sg.Text('Messages', font=normalFont)],
+                 [sg.StatusBar('', size=5, background_color='white'), sg.Text('Messages', font=normalFont)],
                  [sg.Text('Receiver Jammed', font=normalFont)],
                  [sg.Text('Case Tamper', font=normalFont)],
                  [sg.Text('Supervisory', font=normalFont)],
@@ -39,18 +42,28 @@ receiveStatus = [[sg.Text('Serial Receiver Status', font=headerFont)],
                  [sg.Button("Get RF Parameters", key='-RFPARA-')],
                  [sg.Button('Get RX Settings')]]
 
+
+inbound1 = False
+inbound2 = False
+inbound3 = False
 receiveConfig = [[sg.Text('Serial Receiver Configure', font=headerFont)],
-                 [sg.Button('Inbound Complete')],
-                 [sg.Button('Inbound Verbatim')],
-                 [sg.Button('Security Extended')]]
+                 [sg.Button('Inbound Complete'), sg.Image(key = "-INBOUND1-", filename="grey.gif", size=(20,20))],
+                 [sg.Button('Inbound Verbatim'), sg.Image(key = "-INBOUND2-", filename="grey.gif", size=(20,20))],
+                 [sg.Button('Security Extended'), sg.Image(key = "-INBOUND3-", filename="grey.gif", size=(20,20))]]
 
-displayMenu = ['All', 'Environmental', 'Security', 'Submetering', 'Repeater']
+repeaterInfo = [[sg.Text('Repeater Info', font=headerFont)],
+                [sg.Text('Hop Count', font=normalFont), sg.StatusBar('', size=3, background_color='white')]]
 
-display = [[sg.Text("Display:", font=normalFont)],
-           [sg.OptionMenu(displayMenu, default_value='All')]]
+
+display = [[sg.Text("Display:", font=headerFont)],
+           [sg.Radio('All', "Display1", default=True)],
+           [sg.Radio('Environmental', "Display1")],
+           [sg.Radio('Security', "Display1")],
+           [sg.Radio('Submetering', "Display1")],
+           [sg.Radio('Repeater', "Display1")]]
 
 messages = [[sg.Text('Messages/Sec', font=headerFont)],
-            [sg.InputText(size=3)]]
+            [sg.StatusBar('', size=3, background_color='white')]]
 
 layout1 = [[sg.Column(UID, vertical_alignment='top'),
             sg.VerticalSeparator(),
@@ -61,6 +74,7 @@ layout1 = [[sg.Column(UID, vertical_alignment='top'),
             sg.Column(receiveConfig, vertical_alignment='top'),
             sg.VerticalSeparator(),
             sg.Column(messages, vertical_alignment='top')],
+           [sg.Column(repeaterInfo, vertical_alignment= 'top')],
            [sg.Column(display, vertical_alignment='top')]]
 
 # SCREEN 2: ENVIRONMENTAL
@@ -112,29 +126,29 @@ layout4 = [[sg.Table(values=arr3, headings=submeteringHeadings, vertical_scroll_
 
 # SCREEN 5: CENELEC
 testTransmitter = [[sg.Text('Test Transmitter', font=headerFont)],
-                   [sg.Text('MID', font=normalFont), sg.InputText(size=5)],
-                   [sg.Text('IDH', font=normalFont), sg.InputText(size=5)],
-                   [sg.Text('IDM', font=normalFont), sg.InputText(size=5)],
-                   [sg.Text('IDL', font=normalFont), sg.InputText(size=5)],
-                   [sg.Text('Level', font=normalFont), sg.InputText(size=5)],
-                   [sg.Text('Margin', font=normalFont), sg.InputText(size=5)],
-                   [sg.Text('Status', font=normalFont), sg.InputText(size=7)],
-                   [sg.Text('Timestamp', font=normalFont), sg.InputText(size=10)]]
+                   [sg.Text('MID', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
+                   [sg.Text('IDH', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
+                   [sg.Text('IDM', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
+                   [sg.Text('IDL', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
+                   [sg.Text('Level', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
+                   [sg.Text('Margin', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
+                   [sg.Text('Status', font=normalFont), sg.StatusBar('', size=7, background_color='white')],
+                   [sg.Text('Timestamp', font=normalFont), sg.StatusBar('', size=10, background_color='white')]]
 
 repeater = [[sg.Text('Repeater', font=headerFont)],
-            [sg.Text('MID', font=normalFont), sg.InputText(size=5)],
-            [sg.Text('IDH', font=normalFont), sg.InputText(size=5)],
-            [sg.Text('IDM', font=normalFont), sg.InputText(size=5)],
-            [sg.Text('IDL', font=normalFont), sg.InputText(size=5)],
-            [sg.Text('Level', font=normalFont), sg.InputText(size=5)],
-            [sg.Text('Margin', font=normalFont), sg.InputText(size=5)],
-            [sg.Text('Status', font=normalFont), sg.InputText(size=7)],
-            [sg.Text('Timestamp', font=normalFont), sg.InputText(size=10)]]
+            [sg.Text('MID', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
+            [sg.Text('IDH', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
+            [sg.Text('IDM', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
+            [sg.Text('IDL', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
+            [sg.Text('Level', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
+            [sg.Text('Margin', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
+            [sg.Text('Status', font=normalFont), sg.StatusBar('', size=7, background_color='white')],
+            [sg.Text('Timestamp', font=normalFont), sg.StatusBar('', size=10, background_color='white')]]
 
-messageNum = [[sg.Text('Message Number', font=headerFont), sg.InputText(size=5)],
-              [sg.Text('Total Missed Messages', font=normalFont), sg.InputText(size=5)],
-              [sg.Text('Message Hit Rate %', font=normalFont), sg.InputText(size=5)],
-              [sg.Text('Rounds', font=normalFont), sg.InputText(size=5)]]
+messageNum = [[sg.Text('Message Number', font=headerFont), sg.StatusBar('', size=5, background_color='white')],
+              [sg.Text('Total Missed Messages', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
+              [sg.Text('Message Hit Rate %', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
+              [sg.Text('Rounds', font=normalFont), sg.StatusBar('', size=5, background_color='white')]]
 
 messageColor = "red"
 messageText = "OFF"
@@ -172,6 +186,31 @@ while True:
     event, values = window.read()
     if event == sg.WIN_CLOSED:  # if user closes window or clicks cancel
         break
+
+    if event == 'Inbound Complete':
+        if not inbound1 and not inbound2 and not inbound3:
+            window['-INBOUND1-'].update(filename=('green.gif'), size=(20,20))
+            inbound1 = True
+        else:
+            window['-INBOUND1-'].update(filename=('grey.gif'), size=(20, 20))
+            inbound1 = False
+
+    if event == 'Inbound Verbatim':
+        if not inbound1 and not inbound2 and not inbound3:
+            window['-INBOUND2-'].update(filename=('green.gif'), size=(20, 20))
+            inbound2 = True
+        else:
+            window['-INBOUND2-'].update(filename=('grey.gif'), size=(20, 20))
+            inbound2 = False
+
+    if event == 'Security Extended':
+        if not inbound1 and not inbound2 and not inbound3:
+            window['-INBOUND3-'].update(filename=('green.gif'), size=(20, 20))
+            inbound3 = True
+        else:
+            window['-INBOUND3-'].update(filename=('grey.gif'), size=(20, 20))
+            inbound3 = False
+
     if event == '-MONITOR-':
         if not monitorOn:
             monitorColor = "green"
