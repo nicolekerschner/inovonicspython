@@ -47,9 +47,9 @@ inbound1 = False
 inbound2 = False
 inbound3 = False
 receiveConfig = [[sg.Text('Serial Receiver Configure', font=headerFont)],
-                 [sg.Button('Inbound Complete'), sg.Image(key = "-INBOUND1-", filename="grey.gif", size=(20,20))],
-                 [sg.Button('Inbound Verbatim'), sg.Image(key = "-INBOUND2-", filename="grey.gif", size=(20,20))],
-                 [sg.Button('Security Extended'), sg.Image(key = "-INBOUND3-", filename="grey.gif", size=(20,20))]]
+                 [sg.Button('Inbound Complete'), sg.Image(key = "-INBOUND1-", filename="grey.gif", size=(20, 20))],
+                 [sg.Button('Inbound Verbatim'), sg.Image(key = "-INBOUND2-", filename="grey.gif", size=(20, 20))],
+                 [sg.Button('Security Extended'), sg.Image(key = "-INBOUND3-", filename="grey.gif", size=(20, 20))]]
 
 repeaterInfo = [[sg.Text('Repeater Info', font=headerFont)],
                 [sg.Text('Hop Count', font=normalFont), sg.StatusBar('', size=3, background_color='white')]]
@@ -89,8 +89,10 @@ monitorText = "Monitor OFF"
 monitorOn = False
 
 layout2 = [
-    [sg.Table(values=arr1, headings=enviroHeadings, vertical_scroll_only=True, alternating_row_color='lightBlue')],
-    [sg.Button('Register'), sg.Button(monitorText, button_color=monitorColor, key='-MONITOR-')],
+    [sg.Table(values=arr1, headings=enviroHeadings, vertical_scroll_only=True, alternating_row_color='lightBlue',
+              key='-TABLE1-')],
+    [sg.Text("Register Device:"), sg.InputText(size=10, key='-INPUT1-')],
+    [sg.Button('Register', enable_events=True), sg.Button(monitorText, button_color=monitorColor, key='-MONITOR-')],
     [sg.Checkbox("Analog Sensor"), sg.Checkbox("Log Raw Data")]]
 
 # SCREEN 3: SECURITY
@@ -104,7 +106,7 @@ monitorText2 = "Monitor OFF"
 monitorOn2 = False
 
 layout3 = [[sg.Table(values=arr2, headings=securityHeadings, vertical_scroll_only=True,
-                     alternating_row_color='lightBlue')],
+                     alternating_row_color='lightBlue', enable_click_events=True, enable_events=True)],
            [sg.Button('Register'), sg.Button(monitorText2, button_color=monitorColor2, key="-MONITOR2-"),
             sg.Checkbox("Log Raw Data")],
            [sg.Text("TX Hit Rate")],
@@ -187,6 +189,11 @@ while True:
     event, values = window.read()
     if event == sg.WIN_CLOSED:  # if user closes window or clicks cancel
         break
+
+    if event == 'Register':
+        text1 = (values['-INPUT1-'])
+        arr1.insert(0, text1)
+        window['-TABLE1-'].update(values=arr1)
 
     if event == 'Inbound Complete':
         if not inbound1 and not inbound2 and not inbound3:
