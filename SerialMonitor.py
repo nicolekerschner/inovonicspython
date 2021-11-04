@@ -83,6 +83,7 @@ enviroHeadings = ['Device', ' MID ', ' H ', ' M ', ' L ', ' CH1 ', ' CH2 ', ' TX
 rows1, cols1 = (20, 16)
 arr1 = [[""] * cols1] * rows1
 
+
 monitorColor = "red"
 monitorText = "Monitor OFF"
 monitorOn = False
