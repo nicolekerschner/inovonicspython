@@ -188,21 +188,24 @@ parity = ['Even', 'Odd', 'None', 'Mark', 'Space']
 stopBits = ['1', '1.5', '2']
 flowControl = ['Xon/Xoff', 'Hardware', 'None']
 
-settings = [[sg.Text("Bits per seconds:"), sg.OptionMenu(bits, default_value='9600', key = '-BITS-')],
-                  [sg.Text("Data Bits:"), sg.OptionMenu(dataBits, default_value='8', key = '-DATABITS-')],
-                  [sg.Text("Parity:"), sg.OptionMenu(parity, default_value='None', key = '-PARITY-')],
-                  [sg.Text('Stop Bits'), sg.OptionMenu(stopBits, default_value='1', key = '-STOPBITS-')],
-                  [sg.Text('Flow Control'), sg.OptionMenu(flowControl, default_value='None', key = '-FLOWCONTROL-')]]
 
-settingsLayout = [[sg.Frame(title = "Port Settings", layout = settings)],
-                  [sg.Button('Restore Defaults')]]
 
 windowLayout = [[sg.Menu(top_menu_def)],
                 [sg.TabGroup(tabs)]]
 
+def create_layout():
+    settings = [[sg.Text("Bits per seconds:"), sg.OptionMenu(bits, default_value='9600', key='-BITS-')],
+                [sg.Text("Data Bits:"), sg.OptionMenu(dataBits, default_value='8', key='-DATABITS-')],
+                [sg.Text("Parity:"), sg.OptionMenu(parity, default_value='None', key='-PARITY-')],
+                [sg.Text('Stop Bits'), sg.OptionMenu(stopBits, default_value='1', key='-STOPBITS-')],
+                [sg.Text('Flow Control'), sg.OptionMenu(flowControl, default_value='None', key='-FLOWCONTROL-')]]
+
+    settingsLayout = [[sg.Frame(title="Port Settings", layout=settings)],
+                      [sg.Button('Restore Defaults')]]
+    return settingsLayout
 
 def open_settings():
-    settings_window = sg.Window("Port Settings", settingsLayout)
+    settings_window = sg.Window("Port Settings", create_layout())
     while True:
         event, values = settings_window.read()
         if event == sg.WIN_CLOSED:
