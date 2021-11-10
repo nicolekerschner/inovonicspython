@@ -86,11 +86,16 @@ monitorColor = "red"
 monitorText = "Monitor OFF"
 monitorOn = False
 
+hopCount = [[sg.Radio('0', "Hop1", default=True)],
+           [sg.Radio('1', "Hop1")],
+           [sg.Radio('All', "Hop1")]]
+
 layout2 = [
     [sg.Table(values=arr1, headings=enviroHeadings, vertical_scroll_only=True, alternating_row_color='lightBlue',
               key='-TABLE1-')],
     [sg.Text("Register Device:"), sg.InputText(size=10, key='-INPUT1-', default_text=" "),
-     sg.Button('Register', enable_events=True), sg.Button('Clear', key='-CLEAR1-')],
+     sg.Button('Register', enable_events=True), sg.Button('Clear', key='-CLEAR1-'), sg.Frame(title="Hop Count",
+                                                                                             layout=hopCount)],
     [sg.Button(monitorText, button_color=monitorColor, key='-MONITOR-')],
     [sg.Checkbox("Analog Sensor"), sg.Checkbox("Log Raw Data")]]
 
@@ -104,6 +109,15 @@ monitorColor2 = "red"
 monitorText2 = "Monitor OFF"
 monitorOn2 = False
 
+hitRate = [[sg.Radio("Off", "hitRate", default=True)],
+           [sg.Radio("Heartbeat", "hitRate")],
+           [sg.Radio("Other", "hitRate")],
+           [sg.Radio("Alarm", "hitRate")]]
+
+diagnostics = [[sg.Text("Skipped Characters")],
+               [sg.StatusBar("", size = 10)],
+               [sg.Text("Level Timer Interval(s)")]]
+
 layout3 = [[sg.Table(values=arr2, headings=securityHeadings, vertical_scroll_only=True, key='-TABLE2-',
                      alternating_row_color='lightBlue', enable_click_events=True, enable_events=True)],
            [sg.Text("Register Device:"), sg.InputText(size=10, key='-INPUT2-', default_text=" "), sg.Button('Register',
@@ -111,8 +125,9 @@ layout3 = [[sg.Table(values=arr2, headings=securityHeadings, vertical_scroll_onl
             sg.Button('Clear', key='-CLEAR2-')],
            [sg.Button(monitorText2, button_color=monitorColor2, key="-MONITOR2-"),
             sg.Checkbox("Log Raw Data")],
-           [sg.Text("TX Hit Rate")],
-           [sg.Text("Diagnostics")]]
+           [sg.Frame(title = "TX Hit Rate", layout = hitRate), sg.Frame(title = "Diagnostics", layout = diagnostics,
+                                                                        vertical_alignment="top")]]
+
 
 # SCREEN 4: SUBMETERING
 submeteringHeadings = ['Device', '  MID  ', '  SNH  ', '  SNM  ', 'Total Count', 'Leak Det', 'Level', 'Margin',
@@ -193,7 +208,38 @@ flowControl = ['Xon/Xoff', 'Hardware', 'None']
 windowLayout = [[sg.Menu(top_menu_def)],
                 [sg.TabGroup(tabs)]]
 
-def create_layout():
+#COM Window from Menu Event
+comMenu = ['Com PLACEHOLDER']
+
+def create_layout_com():
+    comLayout = [[sg.OptionMenu(comMenu)],
+                 [sg.Button("Ok", key='-OK1-')]]
+    return comLayout
+
+def open_com():
+    com_window = sg.Window("COM Port", create_layout_com())
+    while True:
+        event, values = com_window.read()
+        if event == sg.WIN_CLOSED or event == '-OK1-':
+            break
+    com_window.close()
+
+#ABOUT Window from Menu Event
+def create_layout_about():
+    aboutLayout = [[sg.Text('PLACEHOLDER TEXT (reference section 9.4.2 of requirements)')],
+                   [sg.Button("Ok", key = '-OK2-')]]
+    return aboutLayout
+
+def open_about():
+    about_window = sg.Window("COM Port", create_layout_about())
+    while True:
+        event, values = about_window.read()
+        if event == sg.WIN_CLOSED or event == '-OK2-':
+            break
+    about_window.close()
+
+#SETTINGS Window from Menu Element
+def create_layout_settings():
     settings = [[sg.Text("Bits per seconds:"), sg.OptionMenu(bits, default_value='9600', key='-BITS-')],
                 [sg.Text("Data Bits:"), sg.OptionMenu(dataBits, default_value='8', key='-DATABITS-')],
                 [sg.Text("Parity:"), sg.OptionMenu(parity, default_value='None', key='-PARITY-')],
@@ -205,7 +251,7 @@ def create_layout():
     return settingsLayout
 
 def open_settings():
-    settings_window = sg.Window("Port Settings", create_layout())
+    settings_window = sg.Window("Port Settings", create_layout_settings())
     while True:
         event, values = settings_window.read()
         if event == sg.WIN_CLOSED:
@@ -226,8 +272,15 @@ while True:
     if event == sg.WIN_CLOSED:  # if user closes window
         break
 
+#Menu Events
     if event == 'Settings':
         open_settings()
+
+    if event == 'Com No.':
+        open_com()
+
+    if event == 'About':
+        open_about()
 
     # Register Device - Environmental
     if event == 'Register':
