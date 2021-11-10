@@ -200,8 +200,9 @@ settingsLayout = [[sg.Frame(title = "Port Settings", layout = settings)],
 windowLayout = [[sg.Menu(top_menu_def)],
                 [sg.TabGroup(tabs)]]
 
-##Not Currently Functional
+##Not currently functional
 #def create_new_log():
+    #sg.FileSaveAs(enable_events=True, file_types=(('ALL Files', '*.* *'),), initial_folder=None, visible=False)
 
 
 def open_settings():
