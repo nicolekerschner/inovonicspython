@@ -200,23 +200,19 @@ settingsLayout = [[sg.Frame(title = "Port Settings", layout = settings)],
 windowLayout = [[sg.Menu(top_menu_def)],
                 [sg.TabGroup(tabs)]]
 
-##Not currently functional
-#def create_new_log():
-    #sg.FileSaveAs(enable_events=True, file_types=(('ALL Files', '*.* *'),), initial_folder=None, visible=True)
-
 
 def open_settings():
     settings_window = sg.Window("Port Settings", settingsLayout)
     while True:
-        event, values = window.read()
+        event, values = settings_window.read()
         if event == sg.WIN_CLOSED:
             break
         if event == 'Restore Defaults':
-            window['-BITS-'].update(value = '9600')
-            window['-DATABITS-'].update(value='8')
-            window['-PARITY-'].update(value='None')
-            window['-STOPBITS-'].update(value='1')
-            window['-FLOWCONTROL-'].update(value='None')
+            settings_window['-BITS-'].update(value = '9600')
+            settings_window['-DATABITS-'].update(value='8')
+            settings_window['-PARITY-'].update(value='None')
+            settings_window['-STOPBITS-'].update(value='1')
+            settings_window['-FLOWCONTROL-'].update(value='None')
     settings_window.close()
 
 # Create the Window
@@ -229,10 +225,6 @@ while True:
 
     if event == 'Settings':
         open_settings()
-
-    ##Not Currently Functional
-    #if event == 'Create New::NewLogFile':
-        #create_new_log()
 
     # Register Device - Environmental
     if event == 'Register':
