@@ -202,7 +202,7 @@ windowLayout = [[sg.Menu(top_menu_def)],
 
 ##Not currently functional
 #def create_new_log():
-    #sg.FileSaveAs(enable_events=True, file_types=(('ALL Files', '*.* *'),), initial_folder=None, visible=False)
+    #sg.FileSaveAs(enable_events=True, file_types=(('ALL Files', '*.* *'),), initial_folder=None, visible=True)
 
 
 def open_settings():
