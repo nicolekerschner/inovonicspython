@@ -190,6 +190,7 @@ layout5 = [[sg.Table(values=arr3, headings=submeteringHeadings, vertical_scroll_
             button_color=comColor4, key="-COMBUTTON4-"), sg.Checkbox("Log Raw Data")],
            [sg.Frame(title="Hop Count", layout=hopCount4, vertical_alignment='top')]]
 
+
 # SCREEN 6: CENELEC
 testTransmitter = [[sg.Text('MID', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
                    [sg.Text('IDH', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
