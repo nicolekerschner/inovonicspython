@@ -73,67 +73,36 @@ layout1 = [[sg.Column(UID1, vertical_alignment='top'),
            [sg.Column(display1, vertical_alignment='top')]]
 
 # SCREEN 2: LOGGING
-rows, cols = (20, 2)
-arr = [[""] * cols] * rows
-loggingHeadings = ['         Message           ', '      Timestamp     ']
+rows2, cols2 = (20, 2)
+arr2 = [[""] * cols2] * rows2
+loggingHeadings = [ '      Timestamp     ', '         Message           ']
 
-monitorColor4 = "red"
-monitorText4 = "Monitor OFF"
-monitorOn4 = False
-
-comColor1 = "red"
-comText1 = "COM OFF"
-comOn1 = False
-
-hopCount1 = [[sg.Radio('0', "Hop", default=True)],
-             [sg.Radio('1', "Hop")],
-             [sg.Radio('All', "Hop")]]
-
-layout2 = [[sg.Table(values=arr, headings=loggingHeadings, vertical_scroll_only=True, alternating_row_color='lightBlue',
-                     key='-Table4-')],
-           [sg.Button(monitorText4, button_color=monitorColor4, key='-MONITOR4-'), sg.Button(comText1, button_color=comColor1, key="-COMBUTTON1-")],
-           [sg.Frame(title="Hop Count", layout=hopCount1, vertical_alignment="center")],
-           [sg.Checkbox("Log Raw Data")]]
-
-# SCREEN 3: ENVIRONMENTAL
-enviroHeadings = ['Device', ' MID ', ' SNH ', ' SNM ', ' SNL ', ' ID1 ', ' ID2 ', ' ID3 ', 'Analog Data',
-                  'Options', 'Level', 'Margin', 'Status', 'Timestamp']
-rows1, cols1 = (20, 14)
-arr1 = [[""] * cols1] * rows1
-
-monitorColor = "red"
-monitorText = "Monitor OFF"
-monitorOn = False
+monitorColor2 = "red"
+monitorText2 = "Monitor OFF"
+monitorOn2 = False
 
 comColor2 = "red"
 comText2 = "COM OFF"
 comOn2 = False
 
-hopCount = [[sg.Radio('0', "Hop1", default=True)],
-            [sg.Radio('1', "Hop1")],
-            [sg.Radio('All', "Hop1")]]
+hopCount2 = [[sg.Radio('0', "Hop2", default=True)],
+             [sg.Radio('1', "Hop2")],
+             [sg.Radio('All', "Hop2")]]
 
-IDScreen = [[sg.Radio('TXID', "ID", default=True)],
-            [sg.Radio('Payload ID', "ID")]]
+layout2 = [[sg.Table(values=arr2, headings=loggingHeadings, vertical_scroll_only=True, alternating_row_color='lightBlue',
+                     key='-Table2-')],
+           [sg.Button(monitorText2, button_color=monitorColor2, key='-MONITOR2-'), sg.Button(comText2, button_color=comColor2, key="-COMBUTTON2-"), sg.Checkbox("Log Raw Data")],
+           [sg.Frame(title="Hop Count", layout=hopCount2, vertical_alignment="center")]]
 
-layout3 = [
-    [sg.Table(values=arr1, headings=enviroHeadings, vertical_scroll_only=True, alternating_row_color='lightBlue',
-              key='-TABLE1-')],
-    [sg.Text("Register Device:"), sg.InputText(size=10, key='-INPUT1-', default_text=" "),
-     sg.Button('Register', enable_events=True), sg.Button('Clear', key='-CLEAR1-')],
-    [sg.Frame(title="Hop Count",layout=hopCount), sg.Frame(title="ID Screening", layout=IDScreen, vertical_alignment='top')],
-    [sg.Button(monitorText, button_color=monitorColor, key='-MONITOR-'), sg.Button(comText2, button_color=comColor2, key='-COMBUTTON2-')],
-    [sg.Checkbox("Analog Sensor"), sg.Checkbox("Log Raw Data")]]
+# SCREEN 3: ENVIRONMENTAL
+enviroHeadings = ['Device', ' MID ', ' SNH ', ' SNM ', ' SNL ', ' ID1 ', ' ID2 ', ' ID3 ', 'Analog Data',
+                  'Options', 'Level', 'Margin', 'Status', 'Timestamp']
+rows3, cols3 = (20, 14)
+arr3 = [[""] * cols3] * rows3
 
-# SCREEN 4: SECURITY
-securityHeadings = ['Device', '  MID  ', '  SNH  ', '  SNM  ', '  SNL  ', ' Status ', 'Level', '  Margin  ',
-                    ' Timestamp ']
-rows2, cols2 = (20, 9)
-arr2 = [[""] * cols2] * rows2
-
-monitorColor2 = "red"
-monitorText2 = "Monitor OFF"
-monitorOn2 = False
+monitorColor3 = "red"
+monitorText3 = "Monitor OFF"
+monitorOn3 = False
 
 comColor3 = "red"
 comText3 = "COM OFF"
@@ -142,6 +111,36 @@ comOn3 = False
 hopCount3 = [[sg.Radio('0', "Hop3", default=True)],
             [sg.Radio('1', "Hop3")],
             [sg.Radio('All', "Hop3")]]
+
+IDScreen = [[sg.Radio('TXID', "ID", default=True)],
+            [sg.Radio('Payload ID', "ID")]]
+
+layout3 = [
+    [sg.Table(values=arr3, headings=enviroHeadings, vertical_scroll_only=True, alternating_row_color='lightBlue',
+              key='-TABLE3-')],
+    [sg.Text("Register Device:"), sg.InputText(size=10, key='-INPUT3-', default_text=" "),
+     sg.Button('Register', key='-REGISTER3-', enable_events=True), sg.Button('Clear', key='-CLEAR3-')],
+    [sg.Frame(title="Hop Count",layout=hopCount3), sg.Frame(title="ID Screening", layout=IDScreen, vertical_alignment='top')],
+    [sg.Button(monitorText3, button_color=monitorColor3, key='-MONITOR3-'), sg.Button(comText3, button_color=comColor3, key='-COMBUTTON3-'), sg.Checkbox("Log Raw Data")],
+    [sg.Checkbox("Analog Sensor")]]
+
+# SCREEN 4: SECURITY
+securityHeadings = ['Device', '  MID  ', '  SNH  ', '  SNM  ', '  SNL  ', ' Status ', 'Level', '  Margin  ',
+                    ' Timestamp ']
+rows4, cols4 = (20, 9)
+arr4 = [[""] * cols4] * rows4
+
+monitorColor4 = "red"
+monitorText4 = "Monitor OFF"
+monitorOn4 = False
+
+comColor4 = "red"
+comText4 = "COM OFF"
+comOn4 = False
+
+hopCount4 = [[sg.Radio('0', "Hop4", default=True)],
+            [sg.Radio('1', "Hop4")],
+            [sg.Radio('All', "Hop4")]]
 
 hitRate = [[sg.Radio("Off", "hitRate", default=True)],
            [sg.Radio("Heartbeat", "hitRate")],
@@ -152,83 +151,43 @@ diagnostics = [[sg.Text("Skipped Characters")],
                [sg.StatusBar("", size=10)],
                [sg.Text("Level Timer Interval(s)")]]
 
-layout4 = [[sg.Table(values=arr2, headings=securityHeadings, vertical_scroll_only=True, key='-TABLE2-',
+layout4 = [[sg.Table(values=arr4, headings=securityHeadings, vertical_scroll_only=True, key='-TABLE4-',
                      alternating_row_color='lightBlue', enable_click_events=True, enable_events=True)],
-           [sg.Text("Register Device:"), sg.InputText(size=10, key='-INPUT2-', default_text=" "), sg.Button('Register',
+           [sg.Text("Register Device:"), sg.InputText(size=10, key='-INPUT4-', default_text=" "), sg.Button('Register',
                                                                                                     enable_events=True,
-                                                                                                    key='-REGISTER2-'),
-            sg.Button('Clear', key='-CLEAR2-')],
-           [sg.Button(monitorText2, button_color=monitorColor2, key="-MONITOR2-"), sg.Button(comText3,
-                            button_color=comColor3, key='-COMBUTTON3-'), sg.Checkbox("Log Raw Data")],
+                                                                                                    key='-REGISTER4-'),
+            sg.Button('Clear', key='-CLEAR4-')],
+           [sg.Button(monitorText4, button_color=monitorColor4, key="-MONITOR4-"), sg.Button(comText4,
+                            button_color=comColor4, key='-COMBUTTON4-'), sg.Checkbox("Log Raw Data")],
            [sg.Frame(title="TX Hit Rate", layout=hitRate), sg.Frame(title="Diagnostics", layout=diagnostics,
                                                                     vertical_alignment="top"), sg.Frame(
-               title="Hop Count", layout=hopCount3, vertical_alignment='top')]]
+               title="Hop Count", layout=hopCount4, vertical_alignment='top')]]
 
 # SCREEN 5: SUBMETERING
 submeteringHeadings = ['Device', '  MID  ', '  SNH  ', '  SNM  ', '  SNL  ', 'Total Count', 'Leak Detect', 'Level',
                        'Margin', 'Timestamp']
-rows3, cols3 = (20, 10)
-arr3 = [[""] * cols3] * rows3
+rows5, cols5 = (20, 10)
+arr5 = [[""] * cols5] * rows5
 
-monitorColor3 = "red"
-monitorText3 = "Monitor OFF"
-monitorOn3 = False
+monitorColor5 = "red"
+monitorText5 = "Monitor OFF"
+monitorOn5 = False
 
-comColor4 = "red"
-comText4 = "COM OFF"
-comOn4 = False
+comColor5 = "red"
+comText5 = "COM OFF"
+comOn5 = False
 
-hopCount4 = [[sg.Radio('0', "Hop4", default=True)],
-            [sg.Radio('1', "Hop4")],
-            [sg.Radio('All', "Hop4")]]
+hopCount5 = [[sg.Radio('0', "Hop5", default=True)],
+            [sg.Radio('1', "Hop5")],
+            [sg.Radio('All', "Hop5")]]
 
-layout5 = [[sg.Table(values=arr3, headings=submeteringHeadings, vertical_scroll_only=True, key='-TABLE3-',
+layout5 = [[sg.Table(values=arr5, headings=submeteringHeadings, vertical_scroll_only=True, key='-TABLE5-',
                      alternating_row_color='lightBlue')],
-           [sg.Text("Register Device:"), sg.InputText(size=10, key='-INPUT3-', default_text=" "),
-            sg.Button('Register', enable_events=True, key='-REGISTER3-'), sg.Button('Clear', key='-CLEAR3-')],
-           [sg.Button(monitorText3, button_color=monitorColor3, key="-MONITOR3-"), sg.Button(comText4,
-            button_color=comColor4, key="-COMBUTTON4-"), sg.Checkbox("Log Raw Data")],
-           [sg.Frame(title="Hop Count", layout=hopCount4, vertical_alignment='top')]]
-
-
-# SCREEN 6: CENELEC
-testTransmitter = [[sg.Text('MID', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
-                   [sg.Text('IDH', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
-                   [sg.Text('IDM', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
-                   [sg.Text('IDL', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
-                   [sg.Text('Level', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
-                   [sg.Text('Margin', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
-                   [sg.Text('Status', font=normalFont), sg.StatusBar('', size=7, background_color='white')],
-                   [sg.Text('Timestamp', font=normalFont), sg.StatusBar('', size=10, background_color='white')]]
-testTransmitter1 = [[sg.Frame(title="Test Transmitter", layout=testTransmitter)]]
-
-repeater = [[sg.Text('MID', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
-            [sg.Text('IDH', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
-            [sg.Text('IDM', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
-            [sg.Text('IDL', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
-            [sg.Text('Level', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
-            [sg.Text('Margin', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
-            [sg.Text('Status', font=normalFont), sg.StatusBar('', size=7, background_color='white')],
-            [sg.Text('Timestamp', font=normalFont), sg.StatusBar('', size=10, background_color='white')]]
-repeater1 = [[sg.Frame(title="Repeater", layout=repeater)]]
-
-messageNum = [[sg.Text('Message Number', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
-              [sg.Text('Total Missed Messages', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
-              [sg.Text('Message Hit Rate %', font=normalFont), sg.StatusBar('', size=5, background_color='white')],
-              [sg.Text('Rounds', font=normalFont), sg.StatusBar('', size=5, background_color='white')]]
-messageNum = [[sg.Frame(title="Messages", layout=messageNum)]]
-
-messageColor = "red"
-messageText = "OFF"
-messageOn = False
-
-messageCount = [[sg.Text("Message Counting", font=headerFont)],
-                [sg.Button(messageText, button_color=messageColor, key="-MESSAGE-")]]
-
-layout6 = [[sg.Column(testTransmitter1, vertical_alignment='top'),
-            sg.Column(repeater1, vertical_alignment='top'),
-            sg.Column(messageNum, vertical_alignment='top'),
-            sg.Column(messageCount, vertical_alignment='top')]]
+           [sg.Text("Register Device:"), sg.InputText(size=10, key='-INPUT5-', default_text=" "),
+            sg.Button('Register', enable_events=True, key='-REGISTER5-'), sg.Button('Clear', key='-CLEAR5-')],
+           [sg.Button(monitorText5, button_color=monitorColor5, key="-MONITOR5-"), sg.Button(comText5,
+            button_color=comColor5, key="-COMBUTTON5-"), sg.Checkbox("Log Raw Data")],
+           [sg.Frame(title="Hop Count", layout=hopCount5, vertical_alignment='top')]]
 
 top_menu_def = [['File', ['Exit', 'About']],
                 ['Ports', ['Com No.', 'Settings']],
@@ -239,8 +198,7 @@ tabs = [[sg.Tab('Device Data', layout1, font='Helvetica')],
         [sg.Tab('Logging', layout2, font='Helvetica')],
         [sg.Tab('Environmental', layout3, font='Helvetica')],
         [sg.Tab('Security', layout4, font='Helvetica')],
-        [sg.Tab('Submetering', layout5, font='Helvetica')],
-        [sg.Tab('CENELEC', layout6, font='Helvetica', border_width=5)]]
+        [sg.Tab('Submetering', layout5, font='Helvetica')]]
 
 bits = ['110', '300', '1200', '4800', '9600', '19200', '38400', '57600', '115200', '230400', '460800', '921600']
 dataBits = ['5', '6', '7', '8']
@@ -315,11 +273,11 @@ def open_settings():
 
 
 # Create the Window
-window = sg.Window('Window Title', windowLayout)
+window = sg.Window('Window Title', windowLayout, size=(950,600), resizable=True)
 # Event Loop to process "events" and get the "values" of the inputs
 while True:
     event, values = window.read()
-    if event == sg.WIN_CLOSED:  # if user closes window
+    if event == sg.WIN_CLOSED or event == 'Exit':  # if user closes window
         break
 
     # Menu Events
@@ -333,34 +291,34 @@ while True:
         open_about()
 
     # Register Device - Environmental
-    if event == 'Register':
-        text1 = (values['-INPUT1-'])
-        arr1.insert(0, text1)
-        window['-TABLE1-'].update(values=arr1)
-        window['-INPUT1-'].update(value="")
-    if event == '-CLEAR1-':
-        arr1 = [[""] * cols1] * rows1
-        window['-TABLE1-'].update(values=arr1)
-
-    # Register Device - Security
-    if event == '-REGISTER2-':
-        text2 = (values['-INPUT2-'])
-        arr2.insert(0, text2)
-        window['-TABLE2-'].update(values=arr2)
-        window['-INPUT2-'].update(value="")
-    if event == '-CLEAR2-':
-        arr2 = [[""] * cols1] * rows1
-        window['-TABLE2-'].update(values=arr2)
-
-    # Register Device - Submetering
     if event == '-REGISTER3-':
         text3 = (values['-INPUT3-'])
         arr3.insert(0, text3)
         window['-TABLE3-'].update(values=arr3)
         window['-INPUT3-'].update(value="")
     if event == '-CLEAR3-':
-        arr3 = [[""] * cols1] * rows1
+        arr3 = [[""] * cols3] * rows3
         window['-TABLE3-'].update(values=arr3)
+
+    # Register Device - Security
+    if event == '-REGISTER4-':
+        text4 = (values['-INPUT4-'])
+        arr4.insert(0, text4)
+        window['-TABLE4-'].update(values=arr4)
+        window['-INPUT4-'].update(value="")
+    if event == '-CLEAR4-':
+        arr4 = [[""] * cols4] * rows4
+        window['-TABLE4-'].update(values=arr4)
+
+    # Register Device - Submetering
+    if event == '-REGISTER5-':
+        text5 = (values['-INPUT5-'])
+        arr5.insert(0, text5)
+        window['-TABLE5-'].update(values=arr5)
+        window['-INPUT5-'].update(value="")
+    if event == '-CLEAR5-':
+        arr5 = [[""] * cols5] * rows5
+        window['-TABLE5-'].update(values=arr5)
 
     # Uses GIFS to monitor status of Inbound Complete, Inbound Verbatim, & Security Extended
     if event == 'Inbound Complete':
@@ -387,22 +345,7 @@ while True:
             window['-INBOUND3-'].update(filename=('grey.gif'), size=(20, 20))
             inbound3 = False
 
-    # Monitor Button - Environmental
-    if event == '-MONITOR-':
-        if not monitorOn:
-            monitorColor = "green"
-            monitorText = "Monitor ON"
-            window['-MONITOR-'].update(button_color=monitorColor)
-            window['-MONITOR-'].update(monitorText)
-            monitorOn = True
-        else:
-            monitorColor = "red"
-            monitorText = "Monitor OFF"
-            window['-MONITOR-'].update(button_color=monitorColor)
-            window['-MONITOR-'].update(monitorText)
-            monitorOn = False
-
-    # Monitor Button - Security
+    # Monitor Button - Logging
     if event == '-MONITOR2-':
         if not monitorOn2:
             monitorColor2 = "green"
@@ -417,7 +360,7 @@ while True:
             window['-MONITOR2-'].update(monitorText2)
             monitorOn2 = False
 
-    # Monitor Button - Submetering
+    # Monitor Button - Environmental
     if event == '-MONITOR3-':
         if not monitorOn3:
             monitorColor3 = "green"
@@ -432,8 +375,9 @@ while True:
             window['-MONITOR3-'].update(monitorText3)
             monitorOn3 = False
 
-    # Monitor Button - Logging
+    # Monitor Button - Security
     if event == '-MONITOR4-':
+        print('hi')
         if not monitorOn4:
             monitorColor4 = "green"
             monitorText4 = "Monitor ON"
@@ -447,22 +391,22 @@ while True:
             window['-MONITOR4-'].update(monitorText4)
             monitorOn4 = False
 
-    # COM Button - Logging
-    if event == "-COMBUTTON1-":
-        if not comOn1:
-            comColor1 = "green"
-            comText1 = "COM ON"
-            window['-COMBUTTON1-'].update(button_color=comColor1)
-            window['-COMBUTTON1-'].update(comText1)
-            comOn1 = True
+    # Monitor Button - Submetering
+    if event == '-MONITOR5-':
+        if not monitorOn5:
+            monitorColor5 = "green"
+            monitorText5 = "Monitor ON"
+            window['-MONITOR5-'].update(button_color=monitorColor5)
+            window['-MONITOR5-'].update(monitorText5)
+            monitorOn5 = True
         else:
-            comColor1 = "red"
-            comText1 = "COM OFF"
-            window['-COMBUTTON1-'].update(button_color=comColor1)
-            window['-COMBUTTON1-'].update(comText1)
-            comOn1 = False
+            monitorColor5 = "red"
+            monitorText5 = "Monitor OFF"
+            window['-MONITOR5-'].update(button_color=monitorColor5)
+            window['-MONITOR5-'].update(monitorText5)
+            monitorOn5 = False
 
-        # COM Button - Environmental
+    # COM Button - Logging
     if event == "-COMBUTTON2-":
         if not comOn2:
             comColor2 = "green"
@@ -477,7 +421,7 @@ while True:
             window['-COMBUTTON2-'].update(comText2)
             comOn2 = False
 
-        # COM Button - Security
+        # COM Button - Environmental
     if event == "-COMBUTTON3-":
         if not comOn3:
             comColor3 = "green"
@@ -492,7 +436,7 @@ while True:
             window['-COMBUTTON3-'].update(comText3)
             comOn3 = False
 
-        # COM Button - Submetering
+        # COM Button - Security
     if event == "-COMBUTTON4-":
         if not comOn4:
             comColor4 = "green"
@@ -507,19 +451,19 @@ while True:
             window['-COMBUTTON4-'].update(comText4)
             comOn4 = False
 
-    #Message Button - CENELEC
-    if event == '-MESSAGE-':
-        if not messageOn:
-            messageColor = "green"
-            messageText = "ON"
-            window['-MESSAGE-'].update(button_color=messageColor)
-            window['-MESSAGE-'].update(messageText)
-            messageOn = True
+        # COM Button - Submetering
+    if event == "-COMBUTTON5-":
+        if not comOn5:
+            comColor5 = "green"
+            comText5 = "COM ON"
+            window['-COMBUTTON5-'].update(button_color=comColor5)
+            window['-COMBUTTON5-'].update(comText5)
+            comOn5 = True
         else:
-            messageColor = "red"
-            messageText = "OFF"
-            window['-MESSAGE-'].update(button_color=messageColor)
-            window['-MESSAGE-'].update(messageText)
-            messageOn = False
+            comColor5 = "red"
+            comText5 = "COM OFF"
+            window['-COMBUTTON5-'].update(button_color=comColor5)
+            window['-COMBUTTON5-'].update(comText5)
+            comOn5 = False
 
 window.close()
