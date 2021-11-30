@@ -75,7 +75,7 @@ layout1 = [[sg.Column(UID1, vertical_alignment='top'),
 # SCREEN 2: LOGGING
 rows2, cols2 = (20, 2)
 arr2 = [[""] * cols2] * rows2
-loggingHeadings = [ '      Timestamp     ', '         Message           ']
+loggingHeadings = ['      Timestamp     ', '         Message           ']
 
 monitorColor2 = "red"
 monitorText2 = "Monitor OFF"
@@ -89,10 +89,12 @@ hopCount2 = [[sg.Radio('0', "Hop2", default=True)],
              [sg.Radio('1', "Hop2")],
              [sg.Radio('All', "Hop2")]]
 
-layout2 = [[sg.Table(values=arr2, headings=loggingHeadings, vertical_scroll_only=True, alternating_row_color='lightBlue',
-                     key='-Table2-')],
-           [sg.Button(monitorText2, button_color=monitorColor2, key='-MONITOR2-'), sg.Button(comText2, button_color=comColor2, key="-COMBUTTON2-"), sg.Checkbox("Log Raw Data")],
-           [sg.Frame(title="Hop Count", layout=hopCount2, vertical_alignment="center")]]
+layout2 = [
+    [sg.Table(values=arr2, headings=loggingHeadings, vertical_scroll_only=True, alternating_row_color='lightBlue',
+              key='-Table2-')],
+    [sg.Button(monitorText2, button_color=monitorColor2, key='-MONITOR2-'),
+     sg.Button(comText2, button_color=comColor2, key="-COMBUTTON2-"), sg.Checkbox("Log Raw Data")],
+    [sg.Frame(title="Hop Count", layout=hopCount2, vertical_alignment="center")]]
 
 # SCREEN 3: ENVIRONMENTAL
 enviroHeadings = ['Device', ' MID ', ' SNH ', ' SNM ', ' SNL ', ' ID1 ', ' ID2 ', ' ID3 ', 'Analog Data',
@@ -109,8 +111,8 @@ comText3 = "COM OFF"
 comOn3 = False
 
 hopCount3 = [[sg.Radio('0', "Hop3", default=True)],
-            [sg.Radio('1', "Hop3")],
-            [sg.Radio('All', "Hop3")]]
+             [sg.Radio('1', "Hop3")],
+             [sg.Radio('All', "Hop3")]]
 
 IDScreen = [[sg.Radio('TXID', "ID", default=True)],
             [sg.Radio('Payload ID', "ID")]]
@@ -118,10 +120,11 @@ IDScreen = [[sg.Radio('TXID', "ID", default=True)],
 layout3 = [
     [sg.Table(values=arr3, headings=enviroHeadings, vertical_scroll_only=True, alternating_row_color='lightBlue',
               key='-TABLE3-')],
-    [sg.Text("Register Device:"), sg.InputText(size=10, key='-INPUT3-', default_text=" "),
-     sg.Button('Register', key='-REGISTER3-', enable_events=True), sg.Button('Clear', key='-CLEAR3-')],
-    [sg.Frame(title="Hop Count",layout=hopCount3), sg.Frame(title="ID Screening", layout=IDScreen, vertical_alignment='top')],
-    [sg.Button(monitorText3, button_color=monitorColor3, key='-MONITOR3-'), sg.Button(comText3, button_color=comColor3, key='-COMBUTTON3-'), sg.Checkbox("Log Raw Data")],
+    [sg.Button('Register Device', key='-REGISTER3-', enable_events=True), sg.Button('Clear', key='-CLEAR3-')],
+    [sg.Frame(title="Hop Count", layout=hopCount3),
+     sg.Frame(title="ID Screening", layout=IDScreen, vertical_alignment='top')],
+    [sg.Button(monitorText3, button_color=monitorColor3, key='-MONITOR3-'),
+     sg.Button(comText3, button_color=comColor3, key='-COMBUTTON3-'), sg.Checkbox("Log Raw Data")],
     [sg.Checkbox("Analog Sensor")]]
 
 # SCREEN 4: SECURITY
@@ -139,8 +142,8 @@ comText4 = "COM OFF"
 comOn4 = False
 
 hopCount4 = [[sg.Radio('0', "Hop4", default=True)],
-            [sg.Radio('1', "Hop4")],
-            [sg.Radio('All', "Hop4")]]
+             [sg.Radio('1', "Hop4")],
+             [sg.Radio('All', "Hop4")]]
 
 hitRate = [[sg.Radio("Off", "hitRate", default=True)],
            [sg.Radio("Heartbeat", "hitRate")],
@@ -153,12 +156,11 @@ diagnostics = [[sg.Text("Skipped Characters")],
 
 layout4 = [[sg.Table(values=arr4, headings=securityHeadings, vertical_scroll_only=True, key='-TABLE4-',
                      alternating_row_color='lightBlue', enable_click_events=True, enable_events=True)],
-           [sg.Text("Register Device:"), sg.InputText(size=10, key='-INPUT4-', default_text=" "), sg.Button('Register',
-                                                                                                    enable_events=True,
-                                                                                                    key='-REGISTER4-'),
-            sg.Button('Clear', key='-CLEAR4-')],
+           [sg.Button('Register Device', enable_events=True, key='-REGISTER4-'), sg.Button('Clear', key='-CLEAR4-')],
            [sg.Button(monitorText4, button_color=monitorColor4, key="-MONITOR4-"), sg.Button(comText4,
-                            button_color=comColor4, key='-COMBUTTON4-'), sg.Checkbox("Log Raw Data")],
+                                                                                             button_color=comColor4,
+                                                                                             key='-COMBUTTON4-'),
+            sg.Checkbox("Log Raw Data")],
            [sg.Frame(title="TX Hit Rate", layout=hitRate), sg.Frame(title="Diagnostics", layout=diagnostics,
                                                                     vertical_alignment="top"), sg.Frame(
                title="Hop Count", layout=hopCount4, vertical_alignment='top')]]
@@ -178,15 +180,16 @@ comText5 = "COM OFF"
 comOn5 = False
 
 hopCount5 = [[sg.Radio('0', "Hop5", default=True)],
-            [sg.Radio('1', "Hop5")],
-            [sg.Radio('All', "Hop5")]]
+             [sg.Radio('1', "Hop5")],
+             [sg.Radio('All', "Hop5")]]
 
 layout5 = [[sg.Table(values=arr5, headings=submeteringHeadings, vertical_scroll_only=True, key='-TABLE5-',
                      alternating_row_color='lightBlue')],
-           [sg.Text("Register Device:"), sg.InputText(size=10, key='-INPUT5-', default_text=" "),
-            sg.Button('Register', enable_events=True, key='-REGISTER5-'), sg.Button('Clear', key='-CLEAR5-')],
+           [sg.Button('Register Device', enable_events=True, key='-REGISTER5-'), sg.Button('Clear', key='-CLEAR5-')],
            [sg.Button(monitorText5, button_color=monitorColor5, key="-MONITOR5-"), sg.Button(comText5,
-            button_color=comColor5, key="-COMBUTTON5-"), sg.Checkbox("Log Raw Data")],
+                                                                                             button_color=comColor5,
+                                                                                             key="-COMBUTTON5-"),
+            sg.Checkbox("Log Raw Data")],
            [sg.Frame(title="Hop Count", layout=hopCount5, vertical_alignment='top')]]
 
 top_menu_def = [['File', ['Exit', 'About']],
@@ -272,8 +275,53 @@ def open_settings():
     settings_window.close()
 
 
+# REGISTER Window
+register_menu = ["Device1", "Device2"]
+device = ""
+
+
+def create_layout_register():
+    register_1 = [[sg.Frame(title="Search For Devices:", layout=[[sg.Button("Scan")], [sg.Text("Device List:"),
+                                                                sg.OptionMenu(register_menu, key="-OPTIONMENU-"),
+                                                                sg.Button("Register", key='-MENUREGISTER-')]])]]
+    register_2 = [[sg.Frame(title="Input Device:", layout=[[sg.Text("Device ID:"), sg.Input(key="-REGISTER_INPUT-", size=10),
+                                                            sg.Button("Register", key="-REGISTER-")]])]]
+    registerLayout = [[sg.Text("Register Device")],
+                      [sg.Column(register_1), sg.Column(register_2, vertical_alignment="top")],
+                      [sg.Text("Device Selected:"), sg.StatusBar(text=device, background_color='white', auto_size_text= True,
+                                                                 key='-DEVICE_STATUS-')],
+                      [sg.Button("OK")]]
+    return registerLayout
+
+
+def open_register():
+    global device
+    device = ''
+    register_window = sg.Window("Register Device", create_layout_register())
+    while True:
+        event, values = register_window.read()
+        if event == sg.WIN_CLOSED:
+            break
+        if event == "OK":
+            if device == '':
+                sg.popup("NO DEVICE REGISTERED")
+            else:
+                break
+        if event == '-REGISTER-':
+            device = (values['-REGISTER_INPUT-'])
+            register_window['-DEVICE_STATUS-'].update(value=device)
+        if event == "Scan":
+            register_window['Scan'].update(text="Scanning...")
+        if event == '-MENUREGISTER-':
+            device = (values['-OPTIONMENU-'])
+            register_window['-DEVICE_STATUS-'].update(value=device)
+
+
+    register_window.close()
+
+
 # Create the Window
-window = sg.Window('Window Title', windowLayout, size=(950,600), resizable=True)
+window = sg.Window('Window Title', windowLayout, size=(950, 600), resizable=True)
 # Event Loop to process "events" and get the "values" of the inputs
 while True:
     event, values = window.read()
@@ -292,30 +340,30 @@ while True:
 
     # Register Device - Environmental
     if event == '-REGISTER3-':
-        text3 = (values['-INPUT3-'])
+        open_register()
+        text3 = device
         arr3.insert(0, text3)
         window['-TABLE3-'].update(values=arr3)
-        window['-INPUT3-'].update(value="")
     if event == '-CLEAR3-':
         arr3 = [[""] * cols3] * rows3
         window['-TABLE3-'].update(values=arr3)
 
     # Register Device - Security
     if event == '-REGISTER4-':
-        text4 = (values['-INPUT4-'])
+        open_register()
+        text4 = device
         arr4.insert(0, text4)
         window['-TABLE4-'].update(values=arr4)
-        window['-INPUT4-'].update(value="")
     if event == '-CLEAR4-':
         arr4 = [[""] * cols4] * rows4
         window['-TABLE4-'].update(values=arr4)
 
     # Register Device - Submetering
     if event == '-REGISTER5-':
-        text5 = (values['-INPUT5-'])
+        open_register()
+        text5 = device
         arr5.insert(0, text5)
         window['-TABLE5-'].update(values=arr5)
-        window['-INPUT5-'].update(value="")
     if event == '-CLEAR5-':
         arr5 = [[""] * cols5] * rows5
         window['-TABLE5-'].update(values=arr5)
