@@ -1,4 +1,8 @@
 import PySimpleGUI as sg
+import datetime
+from datetime import date
+from datetime import datetime
+
 
 sg.theme('DefaultNoMoreNagging')
 
@@ -48,7 +52,15 @@ inbound2 = False
 inbound3 = False
 receiveConfig = [[sg.Button('Inbound Complete'), sg.Image(key="-INBOUND1-", filename="grey.gif", size=(20, 20))],
                  [sg.Button('Inbound Verbatim'), sg.Image(key="-INBOUND2-", filename="grey.gif", size=(20, 20))],
-                 [sg.Button('Security Extended'), sg.Image(key="-INBOUND3-", filename="grey.gif", size=(20, 20))]]
+                 [sg.Button('Security Extended'), sg.Image(key="-INBOUND3-", filename="grey.gif", size=(20, 20))],
+                 [sg.Button('Message Screening ON'), sg.Checkbox('Disable Enhanced Message Screening')],
+                 [sg.Button('CFG MID')],
+                 [sg.Text("MID:"), sg.StatusBar('', size=5, background_color='white')],
+                 [sg.Text("MID:"), sg.StatusBar('', size=5, background_color='white')],
+                 [sg.Text("MID:"), sg.StatusBar('', size=5, background_color='white')],
+                 [sg.Text("MID:"), sg.StatusBar('', size=5, background_color='white')],
+                 [sg.Text("MID:"), sg.StatusBar('', size=5, background_color='white')],
+                 [sg.Text("Input CIG"), sg.Input(""), sg.Button("Input CIG"), sg.Button("COM ON")]]
 receiveConfig1 = [[sg.Frame(title="Serial Receiver Configure", layout=receiveConfig)]]
 
 repeaterInfo = [[sg.Text('Hop Count', font=normalFont), sg.StatusBar('', size=3, background_color='white')]]
@@ -98,7 +110,7 @@ layout2 = [
 
 # SCREEN 3: ENVIRONMENTAL
 enviroHeadings = ['Device', ' MID ', ' SNH ', ' SNM ', ' SNL ', ' ID1 ', ' ID2 ', ' ID3 ', 'Analog Data',
-                  'Options', 'Level', 'Margin', 'Status', 'Timestamp']
+                  'Options', 'Level', 'Margin', 'Status', '      Timestamp      ']
 rows3, cols3 = (20, 14)
 arr3 = [[""] * cols3] * rows3
 
@@ -129,7 +141,7 @@ layout3 = [
 
 # SCREEN 4: SECURITY
 securityHeadings = ['Device', '  MID  ', '  SNH  ', '  SNM  ', '  SNL  ', ' Status ', 'Level', '  Margin  ',
-                    ' Timestamp ']
+                    '      Timestamp      ']
 rows4, cols4 = (20, 9)
 arr4 = [[""] * cols4] * rows4
 
@@ -167,7 +179,7 @@ layout4 = [[sg.Table(values=arr4, headings=securityHeadings, vertical_scroll_onl
 
 # SCREEN 5: SUBMETERING
 submeteringHeadings = ['Device', '  MID  ', '  SNH  ', '  SNM  ', '  SNL  ', 'Total Count', 'Leak Detect', 'Level',
-                       'Margin', 'Timestamp']
+                       'Margin', '      Timestamp       ']
 rows5, cols5 = (20, 10)
 arr5 = [[""] * cols5] * rows5
 
@@ -281,7 +293,7 @@ device = ""
 
 
 def create_layout_register():
-    register_1 = [[sg.Frame(title="Search For Devices:", layout=[[sg.Button("Scan")], [sg.Text("Device List:"),
+    register_1 = [[sg.Frame(title="Search For Devices:", layout=[[sg.Button("Scan", key='-SCAN-'), sg.Button("Stop Scanning", visible=False)], [sg.Text("Device List:"),
                                                                 sg.OptionMenu(register_menu, key="-OPTIONMENU-"),
                                                                 sg.Button("Register", key='-MENUREGISTER-')]])]]
     register_2 = [[sg.Frame(title="Input Device:", layout=[[sg.Text("Device ID:"), sg.Input(key="-REGISTER_INPUT-", size=10),
@@ -310,8 +322,14 @@ def open_register():
         if event == '-REGISTER-':
             device = (values['-REGISTER_INPUT-'])
             register_window['-DEVICE_STATUS-'].update(value=device)
-        if event == "Scan":
-            register_window['Scan'].update(text="Scanning...")
+        if event == "-SCAN-":
+            register_window['-SCAN-'].update(text="Scanning...")
+            register_window['-SCAN-'].update(disabled=True)
+            register_window['Stop Scanning'].update(visible=True)
+        if event == "Stop Scanning":
+            register_window['-SCAN-'].update(text='Scan')
+            register_window['-SCAN-'].update(disabled=False)
+            register_window['Stop Scanning'].update(visible=False)
         if event == '-MENUREGISTER-':
             device = (values['-OPTIONMENU-'])
             register_window['-DEVICE_STATUS-'].update(value=device)
@@ -321,7 +339,7 @@ def open_register():
 
 
 # Create the Window
-window = sg.Window('Window Title', windowLayout, size=(950, 600), resizable=True)
+window = sg.Window('Window Title', windowLayout, size=(1200, 600), resizable=True)
 # Event Loop to process "events" and get the "values" of the inputs
 while True:
     event, values = window.read()
@@ -342,7 +360,7 @@ while True:
     if event == '-REGISTER3-':
         open_register()
         text3 = device
-        arr3.insert(0, text3)
+        arr3.insert(0, [text3,'','','','','','','','','','','','', datetime.now.strftime(",%m/%d/%Y %H:%M:%S.%f")])
         window['-TABLE3-'].update(values=arr3)
     if event == '-CLEAR3-':
         arr3 = [[""] * cols3] * rows3
@@ -352,7 +370,7 @@ while True:
     if event == '-REGISTER4-':
         open_register()
         text4 = device
-        arr4.insert(0, text4)
+        arr4.insert(0, [text4,'','','','','','','','','','','','', datetime.now.strftime(",%m/%d/%Y %H:%M:%S.%f")])
         window['-TABLE4-'].update(values=arr4)
     if event == '-CLEAR4-':
         arr4 = [[""] * cols4] * rows4
@@ -362,7 +380,7 @@ while True:
     if event == '-REGISTER5-':
         open_register()
         text5 = device
-        arr5.insert(0, text5)
+        arr5.insert(0, [text5,'','','','','','','','','','','','', datetime.now.strftime(",%m/%d/%Y %H:%M:%S.%f")])
         window['-TABLE5-'].update(values=arr5)
     if event == '-CLEAR5-':
         arr5 = [[""] * cols5] * rows5
@@ -373,24 +391,46 @@ while True:
         if not inbound1 and not inbound2 and not inbound3:
             window['-INBOUND1-'].update(filename='green.gif', size=(20, 20))
             inbound1 = True
-        else:
+        elif not inbound1:
+            window['-INBOUND2-'].update(filename='grey.gif', size=(20, 20))
+            inbound2 = False
+            window['-INBOUND3-'].update(filename='grey.gif', size=(20, 20))
+            inbound3 = False
+            window['-INBOUND1-'].update(filename='green.gif', size=(20, 20))
+            inbound1 = True
+        elif inbound1:
             window['-INBOUND1-'].update(filename='grey.gif', size=(20, 20))
             inbound1 = False
+
 
     if event == 'Inbound Verbatim':
         if not inbound1 and not inbound2 and not inbound3:
             window['-INBOUND2-'].update(filename=('green.gif'), size=(20, 20))
             inbound2 = True
-        else:
-            window['-INBOUND2-'].update(filename=('grey.gif'), size=(20, 20))
+        elif not inbound2:
+            window['-INBOUND1-'].update(filename='grey.gif', size=(20, 20))
+            inbound1 = False
+            window['-INBOUND3-'].update(filename='grey.gif', size=(20, 20))
+            inbound3 = False
+            window['-INBOUND2-'].update(filename='green.gif', size=(20, 20))
+            inbound2 = True
+        elif inbound2:
+            window['-INBOUND2-'].update(filename='grey.gif', size=(20, 20))
             inbound2 = False
 
     if event == 'Security Extended':
         if not inbound1 and not inbound2 and not inbound3:
             window['-INBOUND3-'].update(filename=('green.gif'), size=(20, 20))
             inbound3 = True
-        else:
-            window['-INBOUND3-'].update(filename=('grey.gif'), size=(20, 20))
+        elif not inbound3:
+            window['-INBOUND1-'].update(filename='grey.gif', size=(20, 20))
+            inbound1 = False
+            window['-INBOUND2-'].update(filename='grey.gif', size=(20, 20))
+            inbound2 = False
+            window['-INBOUND3-'].update(filename='green.gif', size=(20, 20))
+            inbound3 = True
+        elif inbound3:
+            window['-INBOUND3-'].update(filename='grey.gif', size=(20, 20))
             inbound3 = False
 
     # Monitor Button - Logging
