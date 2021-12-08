@@ -1,8 +1,5 @@
 import PySimpleGUI as sg
-import datetime
-from datetime import date
 from datetime import datetime
-
 
 sg.theme('DefaultNoMoreNagging')
 
@@ -10,6 +7,14 @@ headerFont = ('Helvetica', 10, 'bold')
 normalFont = ('Helvetica', 10)
 
 # SCREEN 1: DEVICE DATA
+repeaterInfo = [[sg.Text('Hop Count', font=normalFont), sg.StatusBar('', size=3, background_color='white')]]
+
+display = [[sg.Radio('All', "Display1", default=True)],
+           [sg.Radio('Environmental', "Display1")],
+           [sg.Radio('Security', "Display1")],
+           [sg.Radio('Submetering', "Display1")],
+           [sg.Radio('Repeater', "Display1")]]
+
 UID = [[sg.Text('Orginator', font=normalFont), sg.StatusBar('', size=10, background_color='white')],
        [sg.Text('First Hop', font=normalFont), sg.StatusBar('', size=10, background_color='white')],
        [sg.Text('Trace Count', font=normalFont), sg.StatusBar('', size=10, background_color='white')],
@@ -18,7 +23,10 @@ UID = [[sg.Text('Orginator', font=normalFont), sg.StatusBar('', size=10, backgro
        [sg.Text('Trace UID', font=normalFont), sg.StatusBar('', size=10, background_color='white')],
        [sg.Text('Trace UID', font=normalFont), sg.StatusBar('', size=10, background_color='white')],
        [sg.Text('Trace UID', font=normalFont), sg.StatusBar('', size=10, background_color='white')]]
-UID1 = [[sg.Frame(title="UID", layout=UID)]]
+
+UID1 = [[sg.Frame(title="UID", layout=UID)],
+        [sg.Frame(title="Repeater Info", layout=repeaterInfo)],
+        [sg.Frame(title="Display:", layout=display)]]
 
 originInfo = [[sg.Text('Survery Bit Set', font=normalFont)],
               [sg.Text('Payload ID Present', font=normalFont)],
@@ -50,44 +58,56 @@ receiveStatus1 = [[sg.Frame(title="Serial Receiver Status", layout=receiveStatus
 inbound1 = False
 inbound2 = False
 inbound3 = False
+
+comColor1 = "red"
+comText1 = "COM OFF"
+comOn1 = False
+
 receiveConfig = [[sg.Button('Inbound Complete'), sg.Image(key="-INBOUND1-", filename="grey.gif", size=(20, 20))],
                  [sg.Button('Inbound Verbatim'), sg.Image(key="-INBOUND2-", filename="grey.gif", size=(20, 20))],
                  [sg.Button('Security Extended'), sg.Image(key="-INBOUND3-", filename="grey.gif", size=(20, 20))],
-                 [sg.Button('Message Screening ON'), sg.Checkbox('Disable Enhanced Message Screening')],
+                 [sg.Button('Message Screening ON')],
+                 [sg.Checkbox('Disable Enhanced Message Screening')],
                  [sg.Button('CFG MID')],
-                 [sg.Text("MID:"), sg.StatusBar('', size=5, background_color='white')],
-                 [sg.Text("MID:"), sg.StatusBar('', size=5, background_color='white')],
-                 [sg.Text("MID:"), sg.StatusBar('', size=5, background_color='white')],
-                 [sg.Text("MID:"), sg.StatusBar('', size=5, background_color='white')],
-                 [sg.Text("MID:"), sg.StatusBar('', size=5, background_color='white')],
-                 [sg.Text("Input CIG"), sg.Input(""), sg.Button("Input CIG"), sg.Button("COM ON")]]
+                 [sg.Text("MID:"), sg.StatusBar('', background_color='white')],
+                 [sg.Text("MID:"), sg.StatusBar('', size=5, expand_x=False, background_color='white')],
+                 [sg.Text("MID:"), sg.StatusBar('', size=5, expand_x=False, background_color='white')],
+                 [sg.Text("MID:"), sg.StatusBar('', size=5, expand_x=False, background_color='white')],
+                 [sg.Text("MID:"), sg.StatusBar('', size=5, expand_x=False, background_color='white')],
+                 [sg.Text("Input CIG"), sg.Input(""), sg.Button("Input CIG"), sg.Button(button_text=comText1,
+                                                                                        button_color=comColor1,
+                                                                                        key="-COMBUTTON1-", size=(7, 1),
+                                                                                        auto_size_button=False)]]
 receiveConfig1 = [[sg.Frame(title="Serial Receiver Configure", layout=receiveConfig)]]
-
-repeaterInfo = [[sg.Text('Hop Count', font=normalFont), sg.StatusBar('', size=3, background_color='white')]]
-repeaterInfo1 = [[sg.Frame(title="Repeater Info", layout=repeaterInfo)]]
-
-display = [[sg.Radio('All', "Display1", default=True)],
-           [sg.Radio('Environmental', "Display1")],
-           [sg.Radio('Security', "Display1")],
-           [sg.Radio('Submetering', "Display1")],
-           [sg.Radio('Repeater', "Display1")]]
-display1 = [[sg.Frame(title="Display:", layout=display)]]
 
 messages = [[sg.StatusBar('', size=3, background_color='white')]]
 messages1 = [[sg.Frame(title='Messages/Sec', layout=messages)]]
+
+rows1, cols1 = (10, 2)
+arr1 = [[""] * cols1] * rows1
+messageHeadings = ['      Timestamp     ', 'Message                                                                   '
+                                           '               ']
+
+rows0, cols0 = (2, 24)
+arr0 = [[""] * cols0] * rows0
+messageHeadings1 = [' 1 ', ' 2 ', ' 3 ', ' 4 ', ' 5 ', ' 6 ', ' 7 ', ' 8 ', ' 9 ', ' 10 ', ' 11 ', ' 12 ', ' 13 ',
+                    ' 14 ', ' 15 ', ' 16 ', ' 17 ', ' 18 ', ' 19 ', ' 20 ', ' 21 ', ' 22 ', ' 23 ', ' 24 ']
 
 layout1 = [[sg.Column(UID1, vertical_alignment='top'),
             sg.Column(originInfo1, vertical_alignment='top'),
             sg.Column(receiveStatus1, vertical_alignment='top'),
             sg.Column(receiveConfig1, vertical_alignment='top'),
             sg.Column(messages1, vertical_alignment='top')],
-           [sg.Column(repeaterInfo1, vertical_alignment='top')],
-           [sg.Column(display1, vertical_alignment='top')]]
+           [sg.Text("Messages")],
+           [sg.Table(values=arr1, headings=messageHeadings, vertical_scroll_only=True, num_rows=7,
+                     alternating_row_color='lightBlue', key='-TABLE1-')],
+           [sg.Table(values=arr0, headings=messageHeadings1, key = "-TABLE0-", num_rows=2, expand_x=True)],
+           [sg.StatusBar('', size=(100, 4), background_color="darkgrey")]]  # placeholder
 
 # SCREEN 2: LOGGING
 rows2, cols2 = (20, 2)
 arr2 = [[""] * cols2] * rows2
-loggingHeadings = ['      Timestamp     ', '         Message           ']
+loggingHeadings = ['      Timestamp     ', '         Message                                                         ']
 
 monitorColor2 = "red"
 monitorText2 = "Monitor OFF"
@@ -102,7 +122,7 @@ hopCount2 = [[sg.Radio('0', "Hop2", default=True)],
              [sg.Radio('All', "Hop2")]]
 
 layout2 = [
-    [sg.Table(values=arr2, headings=loggingHeadings, vertical_scroll_only=True, alternating_row_color='lightBlue',
+    [sg.Table(values=arr2, headings=loggingHeadings, vertical_scroll_only=True, alternating_row_color='lightBlue', num_rows= 15,
               key='-Table2-')],
     [sg.Button(monitorText2, button_color=monitorColor2, key='-MONITOR2-'),
      sg.Button(comText2, button_color=comColor2, key="-COMBUTTON2-"), sg.Checkbox("Log Raw Data")],
@@ -130,8 +150,9 @@ IDScreen = [[sg.Radio('TXID', "ID", default=True)],
             [sg.Radio('Payload ID', "ID")]]
 
 layout3 = [
-    [sg.Table(values=arr3, headings=enviroHeadings, vertical_scroll_only=True, alternating_row_color='lightBlue',
-              key='-TABLE3-')],
+    [sg.Table(values=arr3, headings=enviroHeadings, vertical_scroll_only=True, alternating_row_color='lightBlue', num_rows= 15,
+              key='-TABLE3-', expand_x=True)],
+    [sg.StatusBar('', size=(100, 4), background_color="darkgrey")], #placeholder
     [sg.Button('Register Device', key='-REGISTER3-', enable_events=True), sg.Button('Clear', key='-CLEAR3-')],
     [sg.Frame(title="Hop Count", layout=hopCount3),
      sg.Frame(title="ID Screening", layout=IDScreen, vertical_alignment='top')],
@@ -166,8 +187,9 @@ diagnostics = [[sg.Text("Skipped Characters")],
                [sg.StatusBar("", size=10)],
                [sg.Text("Level Timer Interval(s)")]]
 
-layout4 = [[sg.Table(values=arr4, headings=securityHeadings, vertical_scroll_only=True, key='-TABLE4-',
-                     alternating_row_color='lightBlue', enable_click_events=True, enable_events=True)],
+layout4 = [[sg.Table(values=arr4, headings=securityHeadings, vertical_scroll_only=True, key='-TABLE4-', num_rows= 15,
+                     alternating_row_color='lightBlue', expand_x=True)],
+           [sg.StatusBar('', size=(100, 4), background_color="darkgrey")], #placeholder
            [sg.Button('Register Device', enable_events=True, key='-REGISTER4-'), sg.Button('Clear', key='-CLEAR4-')],
            [sg.Button(monitorText4, button_color=monitorColor4, key="-MONITOR4-"), sg.Button(comText4,
                                                                                              button_color=comColor4,
@@ -195,8 +217,9 @@ hopCount5 = [[sg.Radio('0', "Hop5", default=True)],
              [sg.Radio('1', "Hop5")],
              [sg.Radio('All', "Hop5")]]
 
-layout5 = [[sg.Table(values=arr5, headings=submeteringHeadings, vertical_scroll_only=True, key='-TABLE5-',
-                     alternating_row_color='lightBlue')],
+layout5 = [[sg.Table(values=arr5, headings=submeteringHeadings, vertical_scroll_only=True, key='-TABLE5-', num_rows= 15,
+                     alternating_row_color='lightBlue', expand_x=True)],
+           [sg.StatusBar('', size=(100, 4), background_color="darkgrey")], #placeholder
            [sg.Button('Register Device', enable_events=True, key='-REGISTER5-'), sg.Button('Clear', key='-CLEAR5-')],
            [sg.Button(monitorText5, button_color=monitorColor5, key="-MONITOR5-"), sg.Button(comText5,
                                                                                              button_color=comColor5,
@@ -230,7 +253,7 @@ comMenu = ['Com PLACEHOLDER']
 
 def create_layout_com():
     comLayout = [[sg.OptionMenu(comMenu)],
-                 [sg.Button("Ok", key='-OK1-')]]
+                 [sg.Button("OK", key='-OK1-')]]
     return comLayout
 
 
@@ -246,7 +269,7 @@ def open_com():
 # ABOUT Window from Menu Event
 def create_layout_about():
     aboutLayout = [[sg.Text('PLACEHOLDER TEXT (reference section 9.4.2 of requirements)')],
-                   [sg.Button("Ok", key='-OK2-')]]
+                   [sg.Button("OK", key='-OK2-')]]
     return aboutLayout
 
 
@@ -268,7 +291,7 @@ def create_layout_settings():
                 [sg.Text('Flow Control'), sg.OptionMenu(flowControl, default_value='None', key='-FLOWCONTROL-')]]
 
     settingsLayout = [[sg.Frame(title="Port Settings", layout=settings)],
-                      [sg.Button('Restore Defaults')]]
+                      [sg.Button('Restore Defaults'), sg.Button("OK", key="-OK3-")]]
     return settingsLayout
 
 
@@ -276,7 +299,7 @@ def open_settings():
     settings_window = sg.Window("Port Settings", create_layout_settings())
     while True:
         event, values = settings_window.read()
-        if event == sg.WIN_CLOSED:
+        if event == sg.WIN_CLOSED or event == "-OK3-":
             break
         if event == 'Restore Defaults':
             settings_window['-BITS-'].update(value='9600')
@@ -293,15 +316,19 @@ device = ""
 
 
 def create_layout_register():
-    register_1 = [[sg.Frame(title="Search For Devices:", layout=[[sg.Button("Scan", key='-SCAN-'), sg.Button("Stop Scanning", visible=False)], [sg.Text("Device List:"),
-                                                                sg.OptionMenu(register_menu, key="-OPTIONMENU-"),
-                                                                sg.Button("Register", key='-MENUREGISTER-')]])]]
-    register_2 = [[sg.Frame(title="Input Device:", layout=[[sg.Text("Device ID:"), sg.Input(key="-REGISTER_INPUT-", size=10),
-                                                            sg.Button("Register", key="-REGISTER-")]])]]
+    register_1 = [[sg.Frame(title="Search For Devices:",
+                            layout=[[sg.Button("Scan", key='-SCAN-'), sg.Button("Stop Scanning", visible=False)],
+                                    [sg.Text("Device List:"),
+                                     sg.OptionMenu(register_menu, key="-OPTIONMENU-"),
+                                     sg.Button("Register", key='-MENUREGISTER-')]])]]
+    register_2 = [
+        [sg.Frame(title="Input Device:", layout=[[sg.Text("Device ID:"), sg.Input(key="-REGISTER_INPUT-", size=10),
+                                                  sg.Button("Register", key="-REGISTER-")]])]]
     registerLayout = [[sg.Text("Register Device")],
                       [sg.Column(register_1), sg.Column(register_2, vertical_alignment="top")],
-                      [sg.Text("Device Selected:"), sg.StatusBar(text=device, background_color='white', auto_size_text= True,
-                                                                 key='-DEVICE_STATUS-')],
+                      [sg.Text("Device Selected:"),
+                       sg.StatusBar(text=device, background_color='white', auto_size_text=True,
+                                    key='-DEVICE_STATUS-')],
                       [sg.Button("OK")]]
     return registerLayout
 
@@ -334,12 +361,11 @@ def open_register():
             device = (values['-OPTIONMENU-'])
             register_window['-DEVICE_STATUS-'].update(value=device)
 
-
     register_window.close()
 
 
 # Create the Window
-window = sg.Window('Window Title', windowLayout, size=(1200, 600), resizable=True)
+window = sg.Window('Window Title', windowLayout, size=(1050, 825), default_element_size=(10, 1), resizable=True)
 # Event Loop to process "events" and get the "values" of the inputs
 while True:
     event, values = window.read()
@@ -360,7 +386,8 @@ while True:
     if event == '-REGISTER3-':
         open_register()
         text3 = device
-        arr3.insert(0, [text3,'','','','','','','','','','','','', datetime.now.strftime(",%m/%d/%Y %H:%M:%S.%f")])
+        arr3.insert(0, [text3, '', '', '', '', '', '', '', '', '', '', '', '',
+                        datetime.now.strftime(",%m/%d/%Y %H:%M:%S.%f")])
         window['-TABLE3-'].update(values=arr3)
     if event == '-CLEAR3-':
         arr3 = [[""] * cols3] * rows3
@@ -370,7 +397,8 @@ while True:
     if event == '-REGISTER4-':
         open_register()
         text4 = device
-        arr4.insert(0, [text4,'','','','','','','','','','','','', datetime.now.strftime(",%m/%d/%Y %H:%M:%S.%f")])
+        arr4.insert(0, [text4, '', '', '', '', '', '', '', '', '', '', '', '',
+                        datetime.now.strftime(",%m/%d/%Y %H:%M:%S.%f")])
         window['-TABLE4-'].update(values=arr4)
     if event == '-CLEAR4-':
         arr4 = [[""] * cols4] * rows4
@@ -380,7 +408,8 @@ while True:
     if event == '-REGISTER5-':
         open_register()
         text5 = device
-        arr5.insert(0, [text5,'','','','','','','','','','','','', datetime.now.strftime(",%m/%d/%Y %H:%M:%S.%f")])
+        arr5.insert(0, [text5, '', '', '', '', '', '', '', '', '', '', '', '',
+                        datetime.now.strftime(",%m/%d/%Y %H:%M:%S.%f")])
         window['-TABLE5-'].update(values=arr5)
     if event == '-CLEAR5-':
         arr5 = [[""] * cols5] * rows5
@@ -401,7 +430,6 @@ while True:
         elif inbound1:
             window['-INBOUND1-'].update(filename='grey.gif', size=(20, 20))
             inbound1 = False
-
 
     if event == 'Inbound Verbatim':
         if not inbound1 and not inbound2 and not inbound3:
@@ -465,7 +493,6 @@ while True:
 
     # Monitor Button - Security
     if event == '-MONITOR4-':
-        print('hi')
         if not monitorOn4:
             monitorColor4 = "green"
             monitorText4 = "Monitor ON"
@@ -493,6 +520,21 @@ while True:
             window['-MONITOR5-'].update(button_color=monitorColor5)
             window['-MONITOR5-'].update(monitorText5)
             monitorOn5 = False
+
+    # COM Button - Logging
+    if event == "-COMBUTTON1-":
+        if not comOn1:
+            comColor1 = "green"
+            comText1 = "COM ON"
+            window['-COMBUTTON1-'].update(button_color=comColor1)
+            window['-COMBUTTON1-'].update(comText1)
+            comOn1 = True
+        else:
+            comColor1 = "red"
+            comText1 = "COM OFF"
+            window['-COMBUTTON1-'].update(button_color=comColor1)
+            window['-COMBUTTON1-'].update(comText1)
+            comOn1 = False
 
     # COM Button - Logging
     if event == "-COMBUTTON2-":
