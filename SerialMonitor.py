@@ -14,7 +14,7 @@ display = [[sg.Radio('All', "Display1", default=True)],
            [sg.Radio('Security', "Display1")],
            [sg.Radio('Submetering', "Display1")],
            [sg.Radio('Repeater', "Display1")]]
-
+spinValues = ['1', '2', '3']
 UID = [[sg.Text('Orginator', font=normalFont), sg.StatusBar('', size=10, background_color='white')],
        [sg.Text('First Hop', font=normalFont), sg.StatusBar('', size=10, background_color='white')],
        [sg.Text('Trace Count', font=normalFont), sg.StatusBar('', size=10, background_color='white')],
@@ -80,7 +80,9 @@ receiveConfig = [[sg.Button('Inbound Complete'), sg.Image(key="-INBOUND1-", file
                                                                                         auto_size_button=False)]]
 receiveConfig1 = [[sg.Frame(title="Serial Receiver Configure", layout=receiveConfig)]]
 
-messages = [[sg.StatusBar('', size=3, background_color='white')]]
+messageNum = 0
+messages = [[sg.StatusBar('', size=3, background_color='white')],
+            [sg.Slider(range=(100,0), default_value=messageNum, disabled=True, key='-MESSAGESLIDE-')]]
 messages1 = [[sg.Frame(title='Messages/Sec', layout=messages)]]
 
 rows1, cols1 = (10, 2)
@@ -98,14 +100,16 @@ layout1 = [[sg.Column(UID1, vertical_alignment='top'),
             sg.Column(receiveStatus1, vertical_alignment='top'),
             sg.Column(receiveConfig1, vertical_alignment='top'),
             sg.Column(messages1, vertical_alignment='top')],
-           [sg.Text("Messages")],
+           [sg.Text("Messages"), sg.Button("GRAPHS")],
            [sg.Table(values=arr1, headings=messageHeadings, vertical_scroll_only=True, num_rows=7,
                      alternating_row_color='lightBlue', key='-TABLE1-')],
            [sg.Table(values=arr0, headings=messageHeadings1, key = "-TABLE0-", num_rows=2, expand_x=True)],
-           [sg.StatusBar('', size=(100, 4), background_color="darkgrey")]]  # placeholder
+           [sg.Graph(canvas_size=(1000,75), graph_bottom_left=(0,0), graph_top_right=(1000,75), background_color="darkgrey", key='-GRAPH0-')]]
+
+graphs = True
 
 # SCREEN 2: LOGGING
-rows2, cols2 = (20, 2)
+rows2, cols2 = (255, 2)
 arr2 = [[""] * cols2] * rows2
 loggingHeadings = ['      Timestamp     ', '         Message                                                         ']
 
@@ -131,7 +135,7 @@ layout2 = [
 # SCREEN 3: ENVIRONMENTAL
 enviroHeadings = ['Device', ' MID ', ' SNH ', ' SNM ', ' SNL ', ' ID1 ', ' ID2 ', ' ID3 ', 'Analog Data',
                   'Options', 'Level', 'Margin', 'Status', '      Timestamp      ']
-rows3, cols3 = (20, 14)
+rows3, cols3 = (255, 14)
 arr3 = [[""] * cols3] * rows3
 
 monitorColor3 = "red"
@@ -152,7 +156,7 @@ IDScreen = [[sg.Radio('TXID', "ID", default=True)],
 layout3 = [
     [sg.Table(values=arr3, headings=enviroHeadings, vertical_scroll_only=True, alternating_row_color='lightBlue', num_rows= 15,
               key='-TABLE3-', expand_x=True)],
-    [sg.StatusBar('', size=(100, 4), background_color="darkgrey")], #placeholder
+    [sg.Graph(canvas_size=(1000,75), graph_bottom_left=(0,0), graph_top_right=(1000,75), background_color="darkgrey")],
     [sg.Button('Register Device', key='-REGISTER3-', enable_events=True), sg.Button('Clear', key='-CLEAR3-')],
     [sg.Frame(title="Hop Count", layout=hopCount3),
      sg.Frame(title="ID Screening", layout=IDScreen, vertical_alignment='top')],
@@ -163,7 +167,7 @@ layout3 = [
 # SCREEN 4: SECURITY
 securityHeadings = ['Device', '  MID  ', '  SNH  ', '  SNM  ', '  SNL  ', ' Status ', 'Level', '  Margin  ',
                     '      Timestamp      ']
-rows4, cols4 = (20, 9)
+rows4, cols4 = (255, 9)
 arr4 = [[""] * cols4] * rows4
 
 monitorColor4 = "red"
@@ -189,7 +193,7 @@ diagnostics = [[sg.Text("Skipped Characters")],
 
 layout4 = [[sg.Table(values=arr4, headings=securityHeadings, vertical_scroll_only=True, key='-TABLE4-', num_rows= 15,
                      alternating_row_color='lightBlue', expand_x=True)],
-           [sg.StatusBar('', size=(100, 4), background_color="darkgrey")], #placeholder
+           [sg.Graph(canvas_size=(1000,75), graph_bottom_left=(0,0), graph_top_right=(1000,75), background_color="darkgrey")],
            [sg.Button('Register Device', enable_events=True, key='-REGISTER4-'), sg.Button('Clear', key='-CLEAR4-')],
            [sg.Button(monitorText4, button_color=monitorColor4, key="-MONITOR4-"), sg.Button(comText4,
                                                                                              button_color=comColor4,
@@ -202,7 +206,7 @@ layout4 = [[sg.Table(values=arr4, headings=securityHeadings, vertical_scroll_onl
 # SCREEN 5: SUBMETERING
 submeteringHeadings = ['Device', '  MID  ', '  SNH  ', '  SNM  ', '  SNL  ', 'Total Count', 'Leak Detect', 'Level',
                        'Margin', '      Timestamp       ']
-rows5, cols5 = (20, 10)
+rows5, cols5 = (255, 10)
 arr5 = [[""] * cols5] * rows5
 
 monitorColor5 = "red"
@@ -219,7 +223,7 @@ hopCount5 = [[sg.Radio('0', "Hop5", default=True)],
 
 layout5 = [[sg.Table(values=arr5, headings=submeteringHeadings, vertical_scroll_only=True, key='-TABLE5-', num_rows= 15,
                      alternating_row_color='lightBlue', expand_x=True)],
-           [sg.StatusBar('', size=(100, 4), background_color="darkgrey")], #placeholder
+           [sg.Graph(canvas_size=(1000,75), graph_bottom_left=(0,0), graph_top_right=(1000,75), background_color="darkgrey")],
            [sg.Button('Register Device', enable_events=True, key='-REGISTER5-'), sg.Button('Clear', key='-CLEAR5-')],
            [sg.Button(monitorText5, button_color=monitorColor5, key="-MONITOR5-"), sg.Button(comText5,
                                                                                              button_color=comColor5,
@@ -366,11 +370,24 @@ def open_register():
 
 # Create the Window
 window = sg.Window('Window Title', windowLayout, size=(1050, 825), default_element_size=(10, 1), resizable=True)
+window.Finalize()
+
+
 # Event Loop to process "events" and get the "values" of the inputs
 while True:
     event, values = window.read()
     if event == sg.WIN_CLOSED or event == 'Exit':  # if user closes window
         break
+
+    if event == 'GRAPHS':
+        if graphs == False:
+            for i in range(0, 960, 40):
+                window['-GRAPH0-'].draw_rectangle(top_left=(i + 10, 70), bottom_right=(i + 40, 0), fill_color='red',
+                                              line_color='red', line_width=2)
+            graphs = True
+        else:
+            window['-GRAPH0-'].erase()
+            graphs = False
 
     # Menu Events
     if event == 'Settings':
