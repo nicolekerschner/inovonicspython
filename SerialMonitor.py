@@ -628,7 +628,7 @@ def Device_Register():
 
 ##Define Data Collection Function
 ##Purpose: Constantly collect data from registered devices
-def Data_Collection():
+def Receive_Message():
     print("World")
     ##Code to be extended
 
@@ -636,9 +636,9 @@ def Data_Collection():
 ##Define Individual Threads
 Run_Display = threading.Thread(target=User_Display)
 Run_Device_Register = threading.Thread(target=Device_Register, daemon=True)
-Run_Data_Collection = threading.Thread(target=Data_Collection, daemon=True)
+Run_Receive_Message = threading.Thread(target=Receive_Message, daemon=True)
 
 ##Start Individual Threads
 Run_Display.start()
 Run_Device_Register.start()
-Run_Data_Collection.start()
+Run_Receive_Message.start()
