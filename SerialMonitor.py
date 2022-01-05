@@ -274,7 +274,7 @@ def User_Display():
         return comLayout
 
     def open_com():
-        com_window = sg.Window("COM Port", create_layout_com())
+        com_window = sg.Window("COM Port", create_layout_com(), modal=True)
         while True:
             event, values = com_window.read()
             if event == sg.WIN_CLOSED or event == '-OK1-':
@@ -288,7 +288,7 @@ def User_Display():
         return aboutLayout
 
     def open_about():
-        about_window = sg.Window("COM Port", create_layout_about())
+        about_window = sg.Window("COM Port", create_layout_about(), modal=True)
         while True:
             event, values = about_window.read()
             if event == sg.WIN_CLOSED or event == '-OK2-':
@@ -308,7 +308,7 @@ def User_Display():
         return settingsLayout
 
     def open_settings():
-        settings_window = sg.Window("Port Settings", create_layout_settings())
+        settings_window = sg.Window("Port Settings", create_layout_settings(), modal=True)
         while True:
             event, values = settings_window.read()
             if event == sg.WIN_CLOSED or event == "-OK3-":
@@ -345,7 +345,7 @@ def User_Display():
     def open_register():
         global device
         device = ''
-        register_window = sg.Window("Register Device", create_layout_register())
+        register_window = sg.Window("Register Device", create_layout_register(), modal=True)
         while True:
             event, values = register_window.read()
             if event == sg.WIN_CLOSED:
@@ -407,7 +407,7 @@ def User_Display():
             open_register()
             text3 = device
             arr3.insert(0, [text3, '', '', '', '', '', '', '', '', '', '', '', '',
-                            datetime.now.strftime(",%m/%d/%Y %H:%M:%S.%f")])
+                            datetime.now().strftime(",%m/%d/%Y %H:%M:%S.%f")])
             window['-TABLE3-'].update(values=arr3)
         if event == '-CLEAR3-':
             arr3 = [[""] * cols3] * rows3
@@ -418,7 +418,7 @@ def User_Display():
             open_register()
             text4 = device
             arr4.insert(0, [text4, '', '', '', '', '', '', '', '', '', '', '', '',
-                            datetime.now.strftime(",%m/%d/%Y %H:%M:%S.%f")])
+                            datetime.now().strftime(",%m/%d/%Y %H:%M:%S.%f")])
             window['-TABLE4-'].update(values=arr4)
         if event == '-CLEAR4-':
             arr4 = [[""] * cols4] * rows4
@@ -429,7 +429,7 @@ def User_Display():
             open_register()
             text5 = device
             arr5.insert(0, [text5, '', '', '', '', '', '', '', '', '', '', '', '',
-                            datetime.now.strftime(",%m/%d/%Y %H:%M:%S.%f")])
+                            datetime.now().strftime(",%m/%d/%Y %H:%M:%S.%f")])
             window['-TABLE5-'].update(values=arr5)
         if event == '-CLEAR5-':
             arr5 = [[""] * cols5] * rows5
