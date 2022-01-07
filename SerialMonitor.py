@@ -3,8 +3,7 @@ import PySimpleGUI as sg
 from datetime import datetime
 from EchoStream_device import EchoStream_device
 
-y = EchoStream_device()
-x = y.function(message="hello")
+
 
 def User_Display():
     sg.theme('DefaultNoMoreNagging')
@@ -349,8 +348,12 @@ def User_Display():
         return registerLayout
 
     def open_register():
-        global device
-        device = ''
+
+
+        ##x = EchoStream_device()
+        ##x.Device_Name = "Echostream1"
+        ##print(x.Device_Name)
+
         register_window = sg.Window("Register Device", create_layout_register(), modal=True)
         while True:
             event, values = register_window.read()
@@ -629,7 +632,7 @@ def User_Display():
 ##Define Data Collection Function
 ##Purpose: Constantly collect data from registered devices
 def Monitor():
-    print(x)
+    print("hello")
     ##Code to be extended
 
 
