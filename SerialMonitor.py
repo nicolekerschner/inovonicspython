@@ -1,7 +1,10 @@
 import threading
 import PySimpleGUI as sg
 from datetime import datetime
+from EchoStream_device import EchoStream_device
 
+y = EchoStream_device()
+x = y.function(message="hello")
 
 def User_Display():
     sg.theme('DefaultNoMoreNagging')
@@ -309,6 +312,9 @@ def User_Display():
 
     def open_settings():
         settings_window = sg.Window("Port Settings", create_layout_settings(), modal=True)
+
+
+
         while True:
             event, values = settings_window.read()
             if event == sg.WIN_CLOSED or event == "-OK3-":
@@ -375,6 +381,7 @@ def User_Display():
     # Create the Window
     window = sg.Window('Window Title', windowLayout, size=(1050, 825), default_element_size=(10, 1), resizable=True)
     window.Finalize()
+
 
     # Event Loop to process "events" and get the "values" of the inputs
     while True:
@@ -622,7 +629,7 @@ def User_Display():
 ##Define Data Collection Function
 ##Purpose: Constantly collect data from registered devices
 def Monitor():
-    print("World")
+    print(x)
     ##Code to be extended
 
 
