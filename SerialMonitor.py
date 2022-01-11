@@ -6,6 +6,11 @@ from EchoStream_device import EchoStream_device
 
 
 def User_Display():
+    current_device = EchoStream_device()
+    current_device.Device_Name = "Echostream1"
+    print(current_device.Device_Name)
+
+
     sg.theme('DefaultNoMoreNagging')
 
     headerFont = ('Helvetica', 10, 'bold')
@@ -259,10 +264,15 @@ def User_Display():
             [sg.Tab('Submetering', layout5, font='Helvetica')]]
 
     bits = ['110', '300', '1200', '4800', '9600', '19200', '38400', '57600', '115200', '230400', '460800', '921600']
+    current_device.BAUD = 9600
     dataBits = ['5', '6', '7', '8']
+    current_device.Data_Bits = 8
     parity = ['Even', 'Odd', 'None', 'Mark', 'Space']
+    current_device.Parity = 'None'
     stopBits = ['1', '1.5', '2']
+    current_device.Stop_Bits = 1
     flowControl = ['Xon/Xoff', 'Hardware', 'None']
+    current_device.Flow_Control= 'None'
 
     windowLayout = [[sg.Menu(top_menu_def)],
                     [sg.TabGroup(tabs)]]
@@ -271,7 +281,7 @@ def User_Display():
     comMenu = ['Com PLACEHOLDER']
 
     def create_layout_com():
-        comLayout = [[sg.OptionMenu(comMenu)],
+        comLayout = [[sg.Combo(comMenu, enable_events=True, readonly=True)],
                      [sg.Button("OK", key='-OK1-')]]
         return comLayout
 
@@ -299,20 +309,19 @@ def User_Display():
 
     # SETTINGS Window from Menu Element
     def create_layout_settings():
-        settings = [[sg.Text("Bits per seconds:"), sg.OptionMenu(bits, default_value='9600', key='-BITS-')],
-                    [sg.Text("Data Bits:"), sg.OptionMenu(dataBits, default_value='8', key='-DATABITS-')],
-                    [sg.Text("Parity:"), sg.OptionMenu(parity, default_value='None', key='-PARITY-')],
-                    [sg.Text('Stop Bits'), sg.OptionMenu(stopBits, default_value='1', key='-STOPBITS-')],
-                    [sg.Text('Flow Control'), sg.OptionMenu(flowControl, default_value='None', key='-FLOWCONTROL-')]]
+        settings = [[sg.Text("Bits per seconds:"), sg.Combo(bits, key='-BITS-', default_value=current_device.BAUD, enable_events=True, readonly=True)],
+                    [sg.Text("Data Bits:"), sg.Combo(dataBits, default_value=current_device.Data_Bits, key='-DATABITS-', enable_events=True, readonly=True)],
+                    [sg.Text("Parity:"), sg.Combo(parity, default_value=current_device.Parity, key='-PARITY-', enable_events=True, readonly=True)],
+                    [sg.Text('Stop Bits'), sg.Combo(stopBits, default_value=current_device.Stop_Bits, key='-STOPBITS-', enable_events=True, readonly=True)],
+                    [sg.Text('Flow Control'), sg.Combo(flowControl, default_value=current_device.Flow_Control, key='-FLOWCONTROL-', enable_events=True, readonly=True)]]
 
         settingsLayout = [[sg.Frame(title="Port Settings", layout=settings)],
                           [sg.Button('Restore Defaults'), sg.Button("OK", key="-OK3-")]]
         return settingsLayout
 
+
     def open_settings():
         settings_window = sg.Window("Port Settings", create_layout_settings(), modal=True)
-
-
 
         while True:
             event, values = settings_window.read()
@@ -320,10 +329,27 @@ def User_Display():
                 break
             if event == 'Restore Defaults':
                 settings_window['-BITS-'].update(value='9600')
+                current_device.BAUD = 9600
                 settings_window['-DATABITS-'].update(value='8')
+                current_device.Data_Bits = 8
                 settings_window['-PARITY-'].update(value='None')
+                current_device.Parity = "None"
                 settings_window['-STOPBITS-'].update(value='1')
+                current_device.Stop_Bits = 1
                 settings_window['-FLOWCONTROL-'].update(value='None')
+                current_device.Flow_Control = "None"
+
+            if event == '-BITS-':
+                current_device.BAUD = values["-BITS-"]
+            if event == '-DATABITS-':
+                current_device.Data_Bits = values["-DATABITS-"]
+            if event == '-PARITY-':
+                current_device.Parity = values["-PARITY-"]
+            if event == '-STOPBITS-':
+                current_device.Stop_Bits = values["-STOPBITS-"]
+            if event == '-FLOWCONTROL-':
+                current_device.Flow_Control = values["-FLOWCONTROL-"]
+
         settings_window.close()
 
     # REGISTER Window
@@ -334,7 +360,7 @@ def User_Display():
         register_1 = [[sg.Frame(title="Search For Devices:",
                                 layout=[[sg.Button("Scan", key='-SCAN-'), sg.Button("Stop Scanning", visible=False)],
                                         [sg.Text("Device List:"),
-                                         sg.OptionMenu(register_menu, key="-OPTIONMENU-"),
+                                         sg.Combo(register_menu, key="-OPTIONMENU-", enable_events=True, readonly=True),
                                          sg.Button("Register", key='-MENUREGISTER-')]])]]
         register_2 = [
             [sg.Frame(title="Input Device:", layout=[[sg.Text("Device ID:"), sg.Input(key="-REGISTER_INPUT-", size=10),
@@ -348,11 +374,6 @@ def User_Display():
         return registerLayout
 
     def open_register():
-
-
-        ##x = EchoStream_device()
-        ##x.Device_Name = "Echostream1"
-        ##print(x.Device_Name)
 
         register_window = sg.Window("Register Device", create_layout_register(), modal=True)
         while True:
